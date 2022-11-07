@@ -826,7 +826,7 @@ function Dapp() {
 
                                 <br></br>
                                 <span className="text-two">
-                                  50% to a good cause<br></br>50% to four
+                                  50% to a good cause<br></br>50% to two
                                   {/* {
                             graphInfo?.data?.multipleWinnersPrizeStrategies[0]
                               .numberOfWinners

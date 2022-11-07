@@ -1,5 +1,9 @@
 STAKE ETH WIN
 
+live at ethwin.netlify.app (got any domain ideas?)
+
+community PoolTogether UI [https://community.pooltogether.com/pools/mainnet/0x2758b8d894b08342f0d00ac5f9466fdc795e4618/home](https://community.pooltogether.com/pools/mainnet/0x2758b8d894b08342f0d00ac5f9466fdc795e4618/home)
+
 
 ## Environment Variables
 
