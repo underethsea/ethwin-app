@@ -83,7 +83,7 @@ function App() {
             {/* </Container> */}
             <div className="boticon">
             <span>
-            <a href="https://github.com/underethsea/" target="_blank">
+            <a href="https://github.com/underethsea/ethwin-app" target="_blank">
             <img src="./images/github.png" className="github"></img></a>
           </span>
           <span >
