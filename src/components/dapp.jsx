@@ -472,7 +472,8 @@ function Dapp() {
       ) {
         return (
           <div>
-            <span className="get-token">WANNA WIN? GET stETH >>></span>
+            <span className="get-token">WANNA WIN? GET stETH <a href="https://app.uniswap.org">
+              <img src="images/uniswap.png" className="token-icon"/></a></span>
           </div>
         );
       } else {
@@ -772,7 +773,7 @@ function Dapp() {
                           <br></br>
                           <span>
                           <span class="timer-text">WEEKLY WINNING</span> {!isNaN(poolInfo?.remainingSeconds) &&
-                            <Timer seconds={Date.now() + 92000 * 1000} />
+                            <Timer seconds={Date.now() + (poolInfo?.remainingSeconds * 1000)} />
 
                             // <Timer seconds={Date.now() + poolInfo?.remainingSeconds * 1000} />
                                            
