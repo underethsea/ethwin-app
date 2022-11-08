@@ -91,7 +91,7 @@ function App() {
             <img src="./images/discord.png" className="discord"></img></a>
           </span>
           <span title="Docs" >
-            <a href="https://ethwindocs.netlify.app" target="_blank">
+            <a href="https://docs.steth.win" target="_blank">
             <img src="./images/docs.png" className="docs"></img></a>
           </span>
           </div>
