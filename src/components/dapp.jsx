@@ -473,7 +473,9 @@ function Dapp() {
         return (
           <div>
             <span className="get-token">WANNA WIN? GET stETH <a href="https://app.uniswap.org">
-              <img src="images/uniswap.png" className="token-icon"/></a></span>
+              <span title="Uniswap"><img src="images/uniswap.png" className="token-icon"/></span></a>
+              <span title="Lido"><a href="https://stake.lido.fi/"><img src="images/lido.png" className="lido-icon"></img></a></span>
+              </span>
           </div>
         );
       } else {
@@ -707,15 +709,16 @@ function Dapp() {
         <br></br>
         {
           <div className="card-content">
-            <center><div>
+            <center><div className="padding-top">
               {/* <div className="table-wrapper has-mobile-cards tablemax"> */}
-                <table className="padded is-stripped table is-hoverable main-table top-table">
-                  <thead>
+                <table className="middle-table top-table">
+                  
                     <tr>
                       <td>
-                        <center>
+                        <center><div className="padding-top">
                           {/* <img src="images/trophyeth.png" className="trophy"></img>&nbsp; */}
                           <span className="top-title">
+                          <div class="top-title-text">WEEKLY WINNING</div>
                           <img src="/images/ethbrand.png" className="eth-title"></img>
 
                             {/* Prize value */}
@@ -733,7 +736,7 @@ function Dapp() {
                                     poolInfo.prizepool,
                                     poolInfo.remainingSeconds
                                   )
-                              )}&nbsp;<image src="/images/steth.png" className="token-icon"/>
+                              )}
                             {/* {!isNaN(poolInfo.prizepool) && <CountUp start={0}
                             end={numberChop(
                               poolInfo.prizepool -
@@ -769,16 +772,17 @@ function Dapp() {
                                             </span>
                                         )}
                                       </CountUp> */}
-                          </span>
-                          <br></br>
-                          <span>
-                          <span class="timer-text">WEEKLY WINNING</span> {!isNaN(poolInfo?.remainingSeconds) &&
+                          </span></div>
+                         
+                          <div className="padding-bottom">
+                          {/* <span class="timer-text">WEEKLY WINNING</span>  */}
+                          {!isNaN(poolInfo?.remainingSeconds) &&
                             <Timer seconds={Date.now() + (poolInfo?.remainingSeconds * 1000)} />
 
                             // <Timer seconds={Date.now() + poolInfo?.remainingSeconds * 1000} />
                                            
                           }
-                          </span>
+                          </div>
                         </center>
                       </td>
                     </tr>
@@ -798,11 +802,11 @@ function Dapp() {
                     {/* {prizesWon === 0 && !popup && addressValue !== "" && <tr><td className="tdcenter">
                      No wins yet, friend.<br/> 
                     <img src="./images/yolo_nolo.png" className="cool-pooly" /></td></tr>} */}
-                  </thead>
+                  
                   {/* <table className="padded bottom-table"><thead><tr><td><center>
                     <br></br></center> </td></tr></thead></table>*/}
                 </table>
-
+<br></br>
                 <table className=" middle-table">
                   <tr>
                     <td style={{ textAlign: "left" }}>
@@ -844,6 +848,14 @@ function Dapp() {
                           </tr>
                         </table>
                       </center>
+
+                      {/* Alternate Lingo
+                      Staked ETH tokens are pooled
+                      With ETH yield everyone wins
+                      50% to a protocol specified charity
+                      50% to two lucky winners per week
+                      Withdraw in full anytime after 7 days */}
+
                       {/* <img
                           src="images/moreinfo.png"
                           className="more-info"
@@ -866,9 +878,8 @@ function Dapp() {
                 <br></br>
                 
                 {isConnected && (
-                  <div className="bottom-table">
+                  <div className="bottom-table ">
                     <table className="padded">
-                      <thead style={{ backgroundColor: "rgb(193, 192, 225);" }}>
                         <th>
                           {" "}
                           <center>
@@ -882,7 +893,8 @@ function Dapp() {
                               </span>
                             )}
 
-                            <table className="wallet-table">
+                            <table className="wallet-table top-padded">
+                              <div className="padding-top"></div>
                               {/* {!isConnected && <span className="right-float">Connect your wallet amigo</span>} */}
 
                               {isConnected &&
@@ -903,7 +915,7 @@ function Dapp() {
                                   </tr>
                                 )}
 
-                              {isConnected &&
+                              {isConnected && 
                                 balances[0].ethwin > 0.0000000000000001 && (
                                   <tr>
                                     <td>
@@ -936,14 +948,14 @@ function Dapp() {
                             </table>
                           </center>
                         </th>
-                      </thead>
+                   
                     </table>
-                    <table className="padded bottom-table">
-                      <thead>
+                    <table className="bottom-table padded bottom-table">
+                    
                         <tr>
                           <td>
                             <center>
-                              <div className="wallet-buttons">
+                              <div className="wallet-buttons padding-bottom">
                                 <GetStethNow />
                                 <DepositButton />
                                 <WithdrawButton />
@@ -951,7 +963,7 @@ function Dapp() {
                             </center>{" "}
                           </td>
                         </tr>
-                      </thead>
+                      
                     </table>
                     </div>
                 

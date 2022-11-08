@@ -46,7 +46,7 @@ Connect Wallet                  </button>
               if (chain.unsupported) {
                 return (
                   <button onClick={openChainModal} type="myButton" className="myButton">
-                    Wat chain??
+                    Wrong Chain
                   </button>
                 );
               }

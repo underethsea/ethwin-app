@@ -82,13 +82,17 @@ function App() {
 
             {/* </Container> */}
             <div className="boticon">
-            <span>
+            <span title="Github">
             <a href="https://github.com/underethsea/ethwin-app" target="_blank">
             <img src="./images/github.png" className="github"></img></a>
           </span>
-          <span >
+          <span title="Discord">
             <a href="https://pooltogether.com/discord" target="_blank">
             <img src="./images/discord.png" className="discord"></img></a>
+          </span>
+          <span title="Docs" >
+            <a href="https://ethwindocs.netlify.app" target="_blank">
+            <img src="./images/docs.png" className="docs"></img></a>
           </span>
           </div>
       </RainbowKitProvider>
