@@ -248,11 +248,17 @@ body {
   left: 400px;
 }
 
+.table-inputamount td {
+  padding:0px;
+}
 .topData {
   display: inline-block;
 
 }
-
+.amount-container {
+  margin-top:18px;
+  margin-bottom:7px;
+}
 .addressText {
   display: inline-block;
 }

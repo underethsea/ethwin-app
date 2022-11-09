@@ -177,7 +177,7 @@ function Dapp() {
       spethwinTotalSupply: ethValue(spethwinTotalSupply),
       remainingSeconds: parseInt(prizePeriodRemainingSeconds),
     };
-    console.log("stats", poolStats);
+    // console.log("stats", poolStats);
     return poolStats;
   }
 
@@ -285,7 +285,6 @@ function Dapp() {
 
   const amountFormatForSend = (amt) => {
     if (Number(amt) != amt) {
-      console.log("num amount no amt")
       return "0";
     } else {
       if (parseFloat(amt) > 0) {
@@ -293,7 +292,6 @@ function Dapp() {
         //   "amount formatted",
         //   ethers.utils.parseUnits(amt.toString(), 18).toString()
         // );
-        console.log("format for send",ethers.utils.parseUnits(amt, 18).toString())
         return ethers.utils.parseUnits(amt, 18);
         // return ethers.BigNumber.from(ethers.utils.parse)
       } else {
@@ -420,7 +418,7 @@ function Dapp() {
     isLoading: withdrawLoading,
   } = useContractWrite(withdrawConfig);
 
-  const { isLoading: approveWaitLoading, isSuccess: approveWaitSuccess } =
+  const { isFetching: approveFetching, isLoading: approveWaitLoading, isSuccess: approveWaitSuccess } =
     useWaitForTransaction({
       hash: approveData?.hash,
       onSuccess(data) {
@@ -468,7 +466,6 @@ function Dapp() {
     },
   });
 
-  // TODO FIX DUST PROBLEM
   function GetStethNow() {
     if (balances[0] !== undefined) {
       if (
@@ -1025,7 +1022,7 @@ function Dapp() {
                   <br></br>
                   {allowances.steth !== undefined && (
                     <div className="amount-container">
-                      <table>
+                      <table className="table-inputamount">
                         <tr>
                           <td>
                             <img
@@ -1076,7 +1073,7 @@ function Dapp() {
                       </table>
                     </div>
                   )}
-                  {depositFetching ? (
+                  {depositFetching || approveFetching ? (
                     <span>
                       <span>
                         <span className="pending-text">
@@ -1089,7 +1086,7 @@ function Dapp() {
                         ></div>
                       </span>
                     </span>
-                  ) : depositLoading ? (
+                  ) : depositLoading || approveLoading ? (
                     <span>
                       <span className="pending-text">PENDING CONFIRMATION</span>
                       &nbsp;&nbsp; &nbsp;&nbsp;
@@ -1098,7 +1095,9 @@ function Dapp() {
                         style={{ display: "inline-block" }}
                       ></div>
                     </span>
-                  ) : parseFloat(allowances.steth) / 1e6 >=
+                  ) : 
+                  
+                  parseFloat(allowances.steth) / 1e6 >=
                       parseFloat(Number(inputAmount)) &&
                     parseFloat(allowances.steth) !== 0 ? (
                     <button
@@ -1150,7 +1149,7 @@ function Dapp() {
                   <br></br>
                   {/* {balances.polygon !== undefined &&  */}
                   <div className="amount-container">
-                    <table>
+                    <table className="table-inputamount">
                       <tr>
                         <td>
                           <img

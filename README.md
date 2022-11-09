@@ -1,6 +1,6 @@
 STAKE ETH WIN
 
-live at ethwin.netlify.app (got any domain ideas?)
+live at [https://steth.win](https://steth.win)
 
 community PoolTogether UI [https://community.pooltogether.com/pools/mainnet/0x2758b8d894b08342f0d00ac5f9466fdc795e4618/home](https://community.pooltogether.com/pools/mainnet/0x2758b8d894b08342f0d00ac5f9466fdc795e4618/home)
 
