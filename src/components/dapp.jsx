@@ -30,6 +30,9 @@ import { ABI } from "./abi.jsx";
 // hardcoded for now
 const stEthYield = 0.05;
 
+const BNZERO = ethers.BigNumber.from("0")
+const BNONEWEI = ethers.BigNumber.from("1")
+
 const ethValue = (amount) => {
   return ethers.utils.formatUnits(amount, 18);
 };
@@ -58,8 +61,8 @@ function estimatePrize(tvl, secondsRemaining) {
 }
 
 // crappy decimal formatting
-function numberChop(number) {
-  number = Number(number);
+function numberChop(biginput) {
+  let number = Number(biginput);
   if (number > 100000) {
     return number.toFixed(0);
   } else if (number > 100) {
@@ -75,7 +78,7 @@ function numberChop(number) {
   } else if (number > 0.0000000001) {
     return number.toFixed(13);
   } else {
-    return number;
+    return biginput;
   }
 }
 
@@ -138,9 +141,9 @@ function Dapp() {
       ]);
 
       let balances = {
-        steth: ethValue(stethBalance),
-        ethwin: ethValue(ethwinBalance),
-        spethwin: ethValue(spEthWinBalance),
+        steth: stethBalance,
+        ethwin: ethwinBalance,
+        spethwin: spEthWinBalance,
       };
 
       // console.log("balances fetched ", balances);
@@ -148,7 +151,7 @@ function Dapp() {
       return balanceArray;
     } catch (error) {
       console.log("error fetching balances", error);
-      return [{ steth: 0, ethwin: 0, spethwin: 0 }];
+      return [{ steth: BNZERO, ethwin: BNZERO, spethwin: BNZERO }];
     }
   }
 
@@ -195,7 +198,7 @@ function Dapp() {
   const signer = useSigner();
 
   const [balances, setBalances] = useState([
-    { steth: 0, ethwin: 0, spethwin: 0 },
+    { steth: BNZERO, ethwin: BNZERO, spethwin: BNZERO },
   ]);
   const [poolInfo, setPoolInfo] = useState({});
   const [prizeMap, setPrizeMap] = useState({});
@@ -282,6 +285,7 @@ function Dapp() {
 
   const amountFormatForSend = (amt) => {
     if (Number(amt) != amt) {
+      console.log("num amount no amt")
       return "0";
     } else {
       if (parseFloat(amt) > 0) {
@@ -289,7 +293,9 @@ function Dapp() {
         //   "amount formatted",
         //   ethers.utils.parseUnits(amt.toString(), 18).toString()
         // );
-        return ethers.utils.parseUnits(amt.toString(), 18).toString();
+        console.log("format for send",ethers.utils.parseUnits(amt, 18).toString())
+        return ethers.utils.parseUnits(amt, 18);
+        // return ethers.BigNumber.from(ethers.utils.parse)
       } else {
         return "0";
       }
@@ -467,8 +473,8 @@ function Dapp() {
     if (balances[0] !== undefined) {
       if (
         isConnected &&
-        parseFloat(balances[0].steth) === 0 &&
-        parseFloat(balances[0].ethwin) === 0
+        balances[0].steth === BNZERO &&
+        balances[0].ethwin === BNZERO
       ) {
         return (
           <div>
@@ -490,7 +496,7 @@ function Dapp() {
       return (
         isConnected && (
           <span>
-            {balances[0].steth > 0.0000000000000001 && (
+            {balances[0].steth.gt(BNZERO) && (
               <span>
                 <span
                   className="open-wallet"
@@ -519,7 +525,7 @@ function Dapp() {
       return (
         isConnected && (
           <span>
-            {balances[0].ethwin > 0 && (
+            {balances[0].ethwin.gt(BNZERO)  && (
               <span
                 className="open-wallet"
                 onClick={() => {
@@ -557,20 +563,21 @@ function Dapp() {
         position: toast.POSITION.BOTTOM_RIGHT,
       });
     } catch (error) {
-      setWalletMessage("error");
+      setWalletMessage("error, see console");
       console.log(error);
     }
   };
 
   const depositTo = async () => {
+    console.log("input amt ",inputAmount)
+    console.log("deposit amounts balance",balances[0].steth," ",balances[0].steth.toString()," ",ethers.utils.parseUnits(inputAmount,18))
     try {
-      if (parseFloat(inputAmount) > balances[0].steth) {
+      if (balances[0].steth.lt(ethers.BigNumber.from(ethers.utils.parseUnits(inputAmount,18)))) {
         setWalletMessage("insufficient balance");
       }
       // else if (parseFloat(inputAmount) < 2) { setWalletMessage("2 usdc minimum") }
       else if (
-        parseFloat(inputAmount) <= 0 ||
-        Number(inputAmount) != inputAmount
+        ethers.BigNumber.from(ethers.utils.parseUnits(inputAmount,18)).lt(BNONEWEI) 
       ) {
         setWalletMessage("amount invalid");
       } else {
@@ -595,7 +602,7 @@ function Dapp() {
         // console.log(depositError)
       }
     } catch (error) {
-      setWalletMessage("error");
+      setWalletMessage("error, see console");
       console.log(error);
     }
   };
@@ -606,14 +613,12 @@ function Dapp() {
       console.log("withdraw balance", balances[0].ethwin);
       if (balances[0].ethwin === undefined) {
       } else {
-        withdrawBalance = parseFloat(balances[0].ethwin);
         console.log("set to ", withdrawBalance);
       }
-      if (parseFloat(inputAmount) > withdrawBalance) {
+      if (balances[0].ethwin.lt(ethers.BigNumber.from(ethers.utils.parseUnits(inputAmount,18)))) {
         setWalletMessage("insufficient balance");
       } else if (
-        parseFloat(inputAmount) <= 0 ||
-        Number(inputAmount) != inputAmount
+        ethers.BigNumber.from(ethers.utils.parseUnits(inputAmount,18)).lt(BNONEWEI) 
       ) {
         setWalletMessage("amount invalid");
       } else {
@@ -624,11 +629,11 @@ function Dapp() {
           withdrawWrite();
         } else {
           setWalletMessage("prize is being awarded");
-          console.log("prize in progress");
+          console.log("prize is being awarded");
         }
       }
     } catch (error) {
-      setWalletMessage("error");
+      setWalletMessage("error, see console");
       console.log(error);
     }
   };
@@ -898,7 +903,7 @@ function Dapp() {
                               {/* {!isConnected && <span className="right-float">Connect your wallet amigo</span>} */}
 
                               {isConnected &&
-                                balances[0].steth > 0.000000000000001 && (
+                                balances[0].steth.gt(BNZERO) && (
                                   <tr>
                                     <td>
                                       <span className="token-text">STETH</span>
@@ -910,13 +915,13 @@ function Dapp() {
                                         className="token"
                                       ></img>
                                       &nbsp;
-                                      {numberChop(balances[0].steth)}
+                                      <span className="token-text">{numberChop(ethers.utils.formatUnits(balances[0].steth,18))}</span>
                                     </td>
                                   </tr>
                                 )}
 
                               {isConnected && 
-                                balances[0].ethwin > 0.0000000000000001 && (
+                                balances[0].ethwin.gt(BNZERO) && (
                                   <tr>
                                     <td>
                                       <span className="token-text">ETHWIN</span>
@@ -927,12 +932,12 @@ function Dapp() {
                                         className="trophy-token"
                                       ></img>
                                       &nbsp;
-                                      {numberChop(balances[0].ethwin)}
+                                      <span className="token-text">{numberChop(ethers.utils.formatUnits(balances[0].ethwin,18))}</span>
                                     </td>
                                   </tr>
                                 )}
 
-                              {isConnected && balances[0].spethwin > .0000000000000001 && (
+                              {isConnected && balances[0].spethwin.gt(BNZERO) && (
                                 <tr>
                                   <td><span className="token-text">SPETHWIN</span></td>
                                   <td style={{ textAlign: "right" }}>
@@ -941,7 +946,7 @@ function Dapp() {
                                         className="trophy-token"
                                       ></img>
                                       &nbsp;
-                                    {numberChop(balances[0].spethwin)}
+                                      <span className="token-text">{numberChop(ethers.utils.formatUnits(balances[0].spethwin,18))}</span>
                                   </td>
                                 </tr>
                               )}
@@ -1054,12 +1059,12 @@ function Dapp() {
                         <tr>
                           <td colSpan={2} style={{ textAlign: "right" }}>
                             <span className="small-balance">
-                              Balance {balances[0].steth}
-                              {balances[0].steth > 0 && (
+                              Balance {numberChop(ethers.utils.formatUnits(balances[0].steth,18))}
+                              {balances[0].steth.gt(BNZERO) && (
                                 <span
                                   className="max-balance"
                                   onClick={(e) =>
-                                    setInputAmount(balances[0].steth)
+                                    setInputAmount(ethers.utils.formatUnits(balances[0].steth,18))
                                   }
                                 >
                                   &nbsp;MAX
@@ -1178,12 +1183,12 @@ function Dapp() {
                       <tr>
                         <td colSpan={2} style={{ textAlign: "right" }}>
                           <span className="small-balance">
-                            Balance {balances[0].ethwin}
-                            {balances[0].ethwin > 0 && (
+                            Balance {ethers.utils.formatUnits(balances[0].ethwin,18)}
+                            {balances[0].ethwin.gt(BNZERO) && (
                               <span
                                 className="max-balance"
                                 onClick={(e) =>
-                                  setInputAmount(balances[0].ethwin)
+                                  setInputAmount(ethers.utils.formatUnits(balances[0].ethwin,18))
                                 }
                               >
                                 &nbsp;MAX
