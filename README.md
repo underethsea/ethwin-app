@@ -1,26 +1,16 @@
-STAKE ETH WIN
+# STAKE ETH WIN
 
-live at [https://steth.win](https://steth.win)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![Ethereum](https://img.shields.io/badge/Ethereum-3C3C3D?style=for-the-badge&logo=Ethereum&logoColor=white)
 
-community PoolTogether UI [https://community.pooltogether.com/pools/mainnet/0x2758b8d894b08342f0d00ac5f9466fdc795e4618/home](https://community.pooltogether.com/pools/mainnet/0x2758b8d894b08342f0d00ac5f9466fdc795e4618/home)
+Live @ [steth.win](https://steth.win)!
 
+Usable through [PoolTogether's Community UI](https://community.pooltogether.com/pools/mainnet/0x2758b8d894b08342f0d00ac5f9466fdc795e4618).
 
-## Environment Variables
+## Local Development
 
-```cp .env.example .env``` and input keys
+Enter your API keys in `.env` (an example file is provided).
 
-## Build
+Build the app through `yarn`.
 
-```yarn```
-
-## Run local
-
-```yarn start```
-
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
-
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-# ethwin-app
+Run local development environment through `yarn start`.
