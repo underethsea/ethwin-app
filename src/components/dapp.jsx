@@ -201,7 +201,7 @@ function Dapp() {
     { steth: BNZERO, ethwin: BNZERO, spethwin: BNZERO },
   ]);
   const [poolInfo, setPoolInfo] = useState({});
-  const [prizeMap, setPrizeMap] = useState({});
+  const [prizeMap, setPrizeMap] = useState([]);
   const [addressValue, setAddressValue] = useState("");
   const [popup, setPopup] = useState(Boolean);
   const [graphInfo, setGraphInfo] = useState([]);
@@ -258,6 +258,7 @@ function Dapp() {
   // console.log("isconnected", isConnected);
   // console.log(address)
   // console.log(allowances);
+  console.log(chain)
 
   const isInvalidInputAmt = (amt) => {
     const inputAmt = Number(amt);
@@ -305,9 +306,12 @@ function Dapp() {
     let data = await GetSubgraphData("ETHEREUM");
     setGraphInfo(data);
     console.log("got graph info", data);
-    let winnerMap = data.data.prizePools[0].prizes[0].awardedControlledTokens
+    let winnerMap = data.data.prizePools[0].prizes.reverse()
+    winnerMap = winnerMap[0].awardedControlledTokens
     console.log(winnerMap)
     setPrizeMap(winnerMap);
+    setModalFocus("winners");
+    setIsModalOpen(true);
   }
 
   // TODO needs work
@@ -1127,7 +1131,23 @@ function Dapp() {
               <br></br>
             </div>
           )}
-
+          {modalFocus === "winners" && <div><div
+                className="closeModal close"
+                onClick={() => closeModal()}
+              ></div>
+              
+              <span>RECENT DRAW WINNERS</span><br></br><br></br><table className="winner-table">
+              
+              {prizeMap.map(winner=>{ return(
+                <tr><td>{winner.winner.startsWith("0x7cf2eb") ? <span>GC</span> :
+                <img src="images/trophy.png" className="winner-icon"></img>}</td>
+                
+                <td><span className="winner-address">{winner.winner.substring(0,8)}</span></td>
+                <td><span className="winner-amount">{numberChop(winner.amount/1e18)}</span></td></tr>)
+              })}
+              </table>
+              
+              </div>}
           {modalFocus === "withdrawWallet" && (
             <div>
               <div
@@ -1234,7 +1254,13 @@ function Dapp() {
             </div>
           )}
         </center>
-      </Modal>
+     
+      </Modal> <br></br> <center>{chain.id===1 && <span
+                      onClick={() => getWinners()}
+                      className="bottom-menu"
+                    >
+                      WINNERS
+                    </span>}</center> 
       <ToastContainer />
       <br></br>
       <br></br>

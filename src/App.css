@@ -16,11 +16,22 @@
 .no-left {
   padding-left: 0em;
 }
-
+.bottom-menu {
+  color:white!important;
+  cursor: pointer;
+  border: 1px solid white;
+  padding:3px;
+}
+.bottom-menu:hover {
+  border-color: rgb(250, 212, 250);
+}
 a {
   color: #7939ae;
 }
-
+.winner-table tr td {padding:3px;}
+.winner-amount {font-size:13px}
+.winner-address {font-size:13px}
+.winner-icon {height:15px;}
 .token-text {
   font-size: 14px;
 }
