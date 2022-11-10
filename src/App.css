@@ -19,7 +19,9 @@
 .bottom-menu {
   color:white!important;
   cursor: pointer;
+  font-size:12px!important;
   border: 1px solid white;
+  border-radius:3px;
   padding:3px;
 }
 .bottom-menu:hover {

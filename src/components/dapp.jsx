@@ -202,6 +202,8 @@ function Dapp() {
   ]);
   const [poolInfo, setPoolInfo] = useState({});
   const [prizeMap, setPrizeMap] = useState([]);
+  const [sponsorMap, setSponsorMap] = useState([]);
+
   const [addressValue, setAddressValue] = useState("");
   const [popup, setPopup] = useState(Boolean);
   const [graphInfo, setGraphInfo] = useState([]);
@@ -313,6 +315,20 @@ function Dapp() {
     setModalFocus("winners");
     setIsModalOpen(true);
   }
+
+  async function getSponsors() {
+    console.log("getting sponsors");
+    let data = await GetSubgraphData("ETHEREUM");
+    setGraphInfo(data);
+    console.log("got graph info", data);
+    let sponsorMap = data.data.controlledTokenBalances
+    console.log(sponsorMap)
+    setSponsorMap(sponsorMap);
+    setModalFocus("sponsors");
+    setIsModalOpen(true);
+  }
+
+
 
   // TODO needs work
   async function calculateExitFee(exitFeeAddress, exitFeeDeposit) {
@@ -1143,9 +1159,28 @@ function Dapp() {
                 <img src="images/trophy.png" className="winner-icon"></img>}</td>
                 
                 <td><span className="winner-address">{winner.winner.substring(0,8)}</span></td>
-                <td><span className="winner-amount">{numberChop(winner.amount/1e18)}</span></td></tr>)
+                <td style={{ textAlign: "right" }}>&nbsp;&nbsp;<span className="winner-amount">{numberChop(winner.amount/1e18)}</span></td></tr>)
               })}
               </table>
+              
+              </div>}
+              {modalFocus === "sponsors" && <div><div
+                className="closeModal close"
+                onClick={() => closeModal()}
+              ></div>
+              
+              <span>SPONSORS</span><br></br><br></br><table className="winner-table">
+              
+              {sponsorMap.map(sponsor=>{ return(
+                <tr>
+                  {/* <td>{winner.winner.startsWith("0x7cf2eb") ? <span>GC</span> :
+                <img src="images/trophy.png" className="winner-icon"></img>}</td> */}
+                
+                <td><span className="winner-address">{sponsor.account.id.substring(0,8)}</span></td>
+                <td style={{ textAlign: "right" }}>&nbsp;&nbsp;<span className="winner-amount">{numberChop(sponsor.balance/1e18)}</span></td></tr>)
+              })}
+              </table><br></br>
+              <a href="https://docs.steth.win/sponsorship" target="_blank">Read more on sponsoring </a>
               
               </div>}
           {modalFocus === "withdrawWallet" && (
@@ -1255,19 +1290,27 @@ function Dapp() {
           )}
         </center>
      
-      </Modal> <br></br> <center>{chain.id===1 && <span
-                      onClick={() => getWinners()}
-                      className="bottom-menu"
-                    >
-                      WINNERS
-                    </span>}</center> 
+      </Modal> <br></br> <center></center> 
       <ToastContainer />
       <br></br>
       <br></br>
       {poolInfo?.prizepool > 0 && (
         <span className="tvl">
           {" "}
-          TVL {numberChop(poolInfo?.prizepool)} stETH
+          TVL {numberChop(poolInfo?.prizepool)} stETH &nbsp;&nbsp;&nbsp; {chain.id===1 && <span><span
+                      onClick={() => getWinners()}
+                      className="bottom-menu"
+                    >
+                      WINNERS
+                    </span>&nbsp;&nbsp;
+                    <span
+                      onClick={() => getSponsors()}
+                      className="bottom-menu"
+                    >
+                      SPONSORS
+                    </span>
+                    </span>
+                    }
         </span>
       )}
     </div>
