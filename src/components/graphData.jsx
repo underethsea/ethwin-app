@@ -13,12 +13,10 @@ let query = `query($prizestrategy: String!, $ethwin: String!,$spethwin: String!,
     prizePools(where:
     {id:$prizepool}){
       id,
-      maxExitFeeMantissa,
-      cumulativePrizeGross,
-      cumulativePrizeNet,
       currentPrizeId,
       currentState,
       prizes (first:5){
+        awardedTimestamp,
         awardedControlledTokens(first:6){
           id,winner,amount,token {
             id

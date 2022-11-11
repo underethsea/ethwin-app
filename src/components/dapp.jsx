@@ -23,12 +23,17 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+import {
+  Separator, EstimatePrize, ChainObject,
+  TimeAgo, NumberChop, DecimalsForCount
+} from "./utils"
+
 import { CONTRACT } from "./contractConnect.jsx";
 import { ADDRESS } from "./address.jsx";
 import { ABI } from "./abi.jsx";
 
-// hardcoded for now
-const stEthYield = 0.05;
+// hardcoded for now | in utils
+// const stEthYield = 0.05;
 
 const BNZERO = ethers.BigNumber.from("0")
 const BNONEWEI = ethers.BigNumber.from("1")
@@ -37,106 +42,22 @@ const ethValue = (amount) => {
   return ethers.utils.formatUnits(amount, 18);
 };
 
-// number w commas
-function separator(numb) {
-  numb = numb.toFixed(0);
-  var str = numb.split(".");
-  str[0] = str[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  return str.join(".");
-}
-
-
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
-}
-
-
-// possible prize still to accrue before award based on tvl, yield, and time remaining
-function estimatePrize(tvl, secondsRemaining) {
-  secondsRemaining = 86400 * 5 + 1000;
-  let daysRemaining = parseInt(secondsRemaining / 86400);
-  let estimate = tvl * (stEthYield * (daysRemaining / 365));
-  // console.log("estimated prize ", estimate);
-  return estimate;
-}
-
-// crappy decimal formatting
-function numberChop(biginput) {
-  let number = Number(biginput);
-  if (number > 100000) {
-    return number.toFixed(0);
-  } else if (number > 100) {
-    return number.toFixed(4);
-  } else if (number > 1) {
-    return number.toFixed(2);
-  } else if (number > 0.01) {
-    return number.toFixed(4);
-  } else if (number > 0.00001) {
-    return number.toFixed(8);
-  } else if (number > 0.00000001) {
-    return number.toFixed(11);
-  } else if (number > 0.0000000001) {
-    return number.toFixed(13);
-  } else {
-    return biginput;
-  }
-}
-
-// haha
-function decimalsForCount(number) {
-  number = Number(number);
-  if (number > 100000) {
-    return 2;
-  } else if (number > 1000) {
-    return 4;
-  } else if (number > 1) {
-    return 6;
-  } else if (number > 0.01) {
-    return 8;
-  } else if (number > 0.00001) {
-    return 10;
-  } else if (number > 0.00000001) {
-    return 13;
-  } else if (number > 0.0000000001) {
-    return 15;
-  } else {
-    return 16;
-  }
-}
-
-// for accessing constants by chain id
-function chainObject(chainId) {
-  try {
-    if (chainId) chainId = chainId.id;
-    if (chainId === 5) {
-      return "GOERLI";
-    } else if (chainId === 1) {
-      return "ETHEREUM";
-    } else {
-      console.log("chain not recognized", chainId);
-      return "ETHEREUM";
-    }
-  } catch (error) {
-    console.log("chain set to ethereum on error");
-    return "ETHEREUM";
-  }
-}
 
 function Dapp() {
  
   // get users balances
   async function getBalance(address) {
     try {
-      // console.log(chainObject(chain), "fetching balances");
+      // console.log(ChainObject(chain), "fetching balances");
 
       let [
         stethBalance,
         ethwinBalance,
         spEthWinBalance,
       ] = await Promise.all([
-        CONTRACT[chainObject(chain)].STETH.balanceOf(address),
-        CONTRACT[chainObject(chain)].ETHWIN.balanceOf(address),
-        CONTRACT[chainObject(chain)].SPETHWIN.balanceOf(address),
+        CONTRACT[ChainObject(chain)].STETH.balanceOf(address),
+        CONTRACT[ChainObject(chain)].ETHWIN.balanceOf(address),
+        CONTRACT[ChainObject(chain)].SPETHWIN.balanceOf(address),
         
       ]);
 
@@ -156,19 +77,19 @@ function Dapp() {
   }
 
   async function getPoolStats() {
-    console.log(chainObject(chain), "getting pool stats");
+    console.log(ChainObject(chain), "getting pool stats");
     let [
       prizePoolBalance,
       spethwinTotalSupply,
       ethwinTotalSupply,
       prizePeriodRemainingSeconds,
     ] = await Promise.all([
-      CONTRACT[chainObject(chain)].STETH.balanceOf(
-        ADDRESS[chainObject(chain)].PRIZEPOOL
+      CONTRACT[ChainObject(chain)].STETH.balanceOf(
+        ADDRESS[ChainObject(chain)].PRIZEPOOL
       ),
-      CONTRACT[chainObject(chain)].SPETHWIN.totalSupply(),
-      CONTRACT[chainObject(chain)].ETHWIN.totalSupply(),
-      CONTRACT[chainObject(chain)].PRIZESTRATEGY.prizePeriodRemainingSeconds(),
+      CONTRACT[ChainObject(chain)].SPETHWIN.totalSupply(),
+      CONTRACT[ChainObject(chain)].ETHWIN.totalSupply(),
+      CONTRACT[ChainObject(chain)].PRIZESTRATEGY.prizePeriodRemainingSeconds(),
     ]);
 
     let poolStats = {
@@ -260,7 +181,7 @@ function Dapp() {
   // console.log("isconnected", isConnected);
   // console.log(address)
   // console.log(allowances);
-  console.log(chain)
+  // console.log(chain)
 
   const isInvalidInputAmt = (amt) => {
     const inputAmt = Number(amt);
@@ -308,16 +229,23 @@ function Dapp() {
     let data = await GetSubgraphData("ETHEREUM");
     setGraphInfo(data);
     console.log("got graph info", data);
+    let drawId = data.data.prizePools[0].currentPrizeId
+    let awardedTimestamp = data.data.prizePools[0].prizes[data.data.prizePools[0].prizes.length-1].awardedTimestamp
     let winnerMap = data.data.prizePools[0].prizes.reverse()
     winnerMap = winnerMap[0].awardedControlledTokens
-    console.log(winnerMap)
-    setPrizeMap(winnerMap);
+    let winnerData = {
+      timestamp: awardedTimestamp,
+      drawId: drawId,
+      winnerMap: winnerMap
+    }
+    console.log(winnerData)
+    setPrizeMap(winnerData);
     setModalFocus("winners");
     setIsModalOpen(true);
   }
 
   async function getSponsors() {
-    console.log("getting sponsors");
+    // console.log("getting sponsors");
     let data = await GetSubgraphData("ETHEREUM");
     setGraphInfo(data);
     console.log("got graph info", data);
@@ -335,14 +263,14 @@ function Dapp() {
     console.log(
       "exit feee calc fetch",
       exitFeeAddress,
-      ADDRESS[chainObject(chain)].ETHWIN,
+      ADDRESS[ChainObject(chain)].ETHWIN,
       exitFeeDeposit
     );
     let exitFee = await CONTRACT[
-      chainObject(chain)
+      ChainObject(chain)
     ].PRIZEPOOL.callStatic.calculateEarlyExitFee(
       exitFeeAddress,
-      ADDRESS[chainObject(chain)].ETHWIN,
+      ADDRESS[ChainObject(chain)].ETHWIN,
       exitFeeDeposit
     );
     // console.log("exitfee", exitFee[1].toString()) // index 0 is burned credit - 1 is exit fee
@@ -361,10 +289,10 @@ function Dapp() {
       args: [
         address,
         amountFormatForSend(inputAmount),
-        ADDRESS[chainObject(chain)].ETHWIN,
+        ADDRESS[ChainObject(chain)].ETHWIN,
         amountFormatForSend(inputAmount),
       ],
-      addressOrName: ADDRESS[chainObject(chain)].PRIZEPOOL,
+      addressOrName: ADDRESS[ChainObject(chain)].PRIZEPOOL,
       contractInterface: ABI.PRIZEPOOL,
       functionName: "withdrawInstantlyFrom",
       // overrides: {
@@ -381,10 +309,10 @@ function Dapp() {
     args: [
       address,
       amountFormatForSend(inputAmount),
-      ADDRESS[chainObject(chain)].ETHWIN,
+      ADDRESS[ChainObject(chain)].ETHWIN,
       "0x0000000000000000000000000000000000000000",
     ],
-    addressOrName: ADDRESS[chainObject(chain)].PRIZEPOOL,
+    addressOrName: ADDRESS[ChainObject(chain)].PRIZEPOOL,
     contractInterface: ABI.PRIZEPOOL,
     functionName: "depositTo",
     // overrides: {
@@ -399,10 +327,10 @@ function Dapp() {
     isError: stethConfigIsError,
   } = usePrepareContractWrite({
     args: [
-      ADDRESS[chainObject(chain)].PRIZEPOOL,
+      ADDRESS[ChainObject(chain)].PRIZEPOOL,
       "115792089237316195423570985008687907853269984665640564039457584007913129639935",
     ],
-    addressOrName: ADDRESS[chainObject(chain)].STETH,
+    addressOrName: ADDRESS[ChainObject(chain)].STETH,
     contractInterface: ABI.ERC20,
     functionName: "approve",
   });
@@ -599,7 +527,7 @@ function Dapp() {
         setWalletMessage("amount invalid");
       } else {
         const rngStatus = await CONTRACT[
-          chainObject(chain)
+          ChainObject(chain)
         ].PRIZESTRATEGY.isRngRequested();
         if (!rngStatus) {
           setUpdateWallet(updateWallet + 1);
@@ -630,7 +558,7 @@ function Dapp() {
       console.log("withdraw balance", balances[0].ethwin);
       if (balances[0].ethwin === undefined) {
       } else {
-        console.log("set to ", withdrawBalance);
+        // console.log("withdraw set to ", withdrawBalance);
       }
       if (balances[0].ethwin.lt(ethers.BigNumber.from(ethers.utils.parseUnits(inputAmount,18)))) {
         setWalletMessage("insufficient balance");
@@ -640,7 +568,7 @@ function Dapp() {
         setWalletMessage("amount invalid");
       } else {
         const rngStatus = await CONTRACT[
-          chainObject(chain)
+          ChainObject(chain)
         ].PRIZESTRATEGY.isRngRequested();
         if (!rngStatus) {
           withdrawWrite();
@@ -672,9 +600,9 @@ function Dapp() {
       if (modalFocus === "wallet" && address) {
         console.log("fetching approvals");
         let [stethApproval] = await Promise.all([
-          CONTRACT[chainObject(chain)].STETH.allowance(
+          CONTRACT[ChainObject(chain)].STETH.allowance(
             address,
-            ADDRESS[chainObject(chain)].PRIZEPOOL
+            ADDRESS[ChainObject(chain)].PRIZEPOOL
           ),
         ]);
         setAllowances({
@@ -698,7 +626,6 @@ function Dapp() {
   }, [chain]);
 
   useEffect(() => {
-    console.log("chain change");
     const goGetPlayer = async () => {
       if (isConnected) {
         setPopup(true);
@@ -711,7 +638,6 @@ function Dapp() {
       }
     };
     if (isConnected) {
-      console.log("getting pooler");
       goGetPlayer();
     }
   }, [
@@ -750,28 +676,28 @@ function Dapp() {
                             ></img> */}
                             &nbsp;
                             {!isNaN(poolInfo.prizepool) &&
-                              numberChop(
+                              NumberChop(
                                 poolInfo.prizepool -
                                   poolInfo.ethwinTotalSupply -
                                   poolInfo.spethwinTotalSupply +
-                                  estimatePrize(
+                                  EstimatePrize(
                                     poolInfo.prizepool,
                                     poolInfo.remainingSeconds
                                   )
                               )}
                             {/* {!isNaN(poolInfo.prizepool) && <CountUp start={0}
-                            end={numberChop(
+                            end={NumberChop(
                               poolInfo.prizepool -
                                 poolInfo.ethwinTotalSupply -
                                 poolInfo.spethwinTotalSupply +
-                                estimatePrize(
+                                EstimatePrize(
                                   poolInfo.prizepool,
                                   poolInfo.remainingSeconds
                                 )
                             )}
                             delay = {3}
                             decimal="."
-                            decimals={decimalsForCount(poolInfo.prizepool - poolInfo.ethwinTotalSupply - poolInfo.spethwinTotalSupply + estimatePrize(poolInfo.prizepool,poolInfo.remainingSeconds))} 
+                            decimals={DecimalsForCount(poolInfo.prizepool - poolInfo.ethwinTotalSupply - poolInfo.spethwinTotalSupply + EstimatePrize(poolInfo.prizepool,poolInfo.remainingSeconds))} 
                             >{({ countUpRef, start }) => (
                               <span>
                                 <span ref={countUpRef} />
@@ -779,9 +705,9 @@ function Dapp() {
                             )}
                           </CountUp>} */}
                             {/* <CountUp
-                                        start={poolInfo.prizepool - poolInfo.ethwinTotalSupply - poolInfo.spethwinTotalSupply + estimatePrize(poolInfo.prizepool,poolInfo.remainingSeconds)}
-                                        end={0.00012057} duration={86400} separator=" "
-                                        decimals={decimalsForCount(poolInfo.prizepool - poolInfo.ethwinTotalSupply - poolInfo.spethwinTotalSupply + estimatePrize(poolInfo.prizepool,poolInfo.remainingSeconds))} 
+                                        start={poolInfo.prizepool - poolInfo.ethwinTotalSupply - poolInfo.spethwinTotalSupply + EstimatePrize(poolInfo.prizepool,poolInfo.remainingSeconds)}
+                                        end={0.00012057} duration={86400} Separator=" "
+                                        decimals={DecimalsForCount(poolInfo.prizepool - poolInfo.ethwinTotalSupply - poolInfo.spethwinTotalSupply + EstimatePrize(poolInfo.prizepool,poolInfo.remainingSeconds))} 
                                         delay = {0} decimal="."
                                         // prefix="EUR "
                                         // suffix=" left"
@@ -932,7 +858,7 @@ function Dapp() {
                                         className="token"
                                       ></img>
                                       &nbsp;
-                                      <span className="token-text">{numberChop(ethers.utils.formatUnits(balances[0].steth,18))}</span>
+                                      <span className="token-text">{NumberChop(ethers.utils.formatUnits(balances[0].steth,18))}</span>
                                     </td>
                                   </tr>
                                 )}
@@ -949,7 +875,7 @@ function Dapp() {
                                         className="trophy-token"
                                       ></img>
                                       &nbsp;
-                                      <span className="token-text">{numberChop(ethers.utils.formatUnits(balances[0].ethwin,18))}</span>
+                                      <span className="token-text">{NumberChop(ethers.utils.formatUnits(balances[0].ethwin,18))}</span>
                                     </td>
                                   </tr>
                                 )}
@@ -963,7 +889,7 @@ function Dapp() {
                                         className="trophy-token"
                                       ></img>
                                       &nbsp;
-                                      <span className="token-text">{numberChop(ethers.utils.formatUnits(balances[0].spethwin,18))}</span>
+                                      <span className="token-text">{NumberChop(ethers.utils.formatUnits(balances[0].spethwin,18))}</span>
                                   </td>
                                 </tr>
                               )}
@@ -1076,7 +1002,7 @@ function Dapp() {
                         <tr>
                           <td colSpan={2} style={{ textAlign: "right" }}>
                             <span className="small-balance">
-                              Balance {numberChop(ethers.utils.formatUnits(balances[0].steth,18))}
+                              Balance {NumberChop(ethers.utils.formatUnits(balances[0].steth,18))}
                               {balances[0].steth.gt(BNZERO) && (
                                 <span
                                   className="max-balance"
@@ -1152,16 +1078,16 @@ function Dapp() {
                 onClick={() => closeModal()}
               ></div>
               
-              <span>RECENT DRAW WINNERS</span><br></br><br></br><table className="winner-table">
+              <span>DRAW {prizeMap.drawId} WINNERS</span><br></br><br></br><table className="winner-table">
               
-              {prizeMap.map(winner=>{ return(
+              {prizeMap.winnerMap.map(winner=>{ return(
                 <tr><td>{winner.winner.startsWith("0x7cf2eb") ? <span>GC</span> :
                 <img src="images/trophy.png" className="winner-icon"></img>}</td>
                 
                 <td><span className="winner-address">{winner.winner.substring(0,8)}</span></td>
-                <td style={{ textAlign: "right" }}>&nbsp;&nbsp;<span className="winner-amount">{numberChop(winner.amount/1e18)}</span></td></tr>)
+                <td style={{ textAlign: "right" }}>&nbsp;&nbsp;<span className="winner-amount">{NumberChop(winner.amount/1e18)}</span></td></tr>)
               })}
-              </table>
+              </table><br></br>Awarded {TimeAgo(prizeMap.timestamp)}
               
               </div>}
               {modalFocus === "sponsors" && <div><div
@@ -1177,7 +1103,7 @@ function Dapp() {
                 <img src="images/trophy.png" className="winner-icon"></img>}</td> */}
                 
                 <td><span className="winner-address">{sponsor.account.id.substring(0,8)}</span></td>
-                <td style={{ textAlign: "right" }}>&nbsp;&nbsp;<span className="winner-amount">{numberChop(sponsor.balance/1e18)}</span></td></tr>)
+                <td style={{ textAlign: "right" }}>&nbsp;&nbsp;<span className="winner-amount">{NumberChop(sponsor.balance/1e18)}</span></td></tr>)
               })}
               </table><br></br>
               <a href="https://docs.steth.win/sponsorship" target="_blank">Read more on sponsoring </a>
@@ -1297,7 +1223,7 @@ function Dapp() {
       {poolInfo?.prizepool > 0 && (
         <span className="tvl">
           {" "}
-          TVL {numberChop(poolInfo?.prizepool)} stETH &nbsp;&nbsp;&nbsp; {chain.id===1 && <span><span
+          TVL {NumberChop(poolInfo?.prizepool)} stETH &nbsp;&nbsp;&nbsp; {chain?.id !==5 && <span><span
                       onClick={() => getWinners()}
                       className="bottom-menu"
                     >
