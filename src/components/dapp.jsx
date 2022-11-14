@@ -1078,16 +1078,19 @@ function Dapp() {
                 onClick={() => closeModal()}
               ></div>
               
-              <span>DRAW {prizeMap.drawId} WINNERS</span><br></br><br></br><table className="winner-table">
-              
+              <span className="title-modal">DRAW {prizeMap.drawId} WINNERS</span>
+              <br/>
+              <br/>
+              <table className="winner-table">
               {prizeMap.winnerMap.map(winner=>{ return(
-                <tr><td>{winner.winner.startsWith("0x7cf2eb") ? <span>GC</span> :
+                <tr><td>{winner.winner.startsWith("0x7cf2eb") ? <img title="Charity address" src="images/charityIcon.png" className="winner-icon"/> :
                 <img src="images/trophy.png" className="winner-icon"></img>}</td>
                 
-                <td><span className="winner-address">{winner.winner.substring(0,8)}</span></td>
-                <td style={{ textAlign: "right" }}>&nbsp;&nbsp;<span className="winner-amount">{NumberChop(winner.amount/1e18)}</span></td></tr>)
+                <td><a target="_blank" href={"https://etherscan.io/address/" + winner.winner} className="winner-address">{winner.winner.substring(0,8)}</a></td>
+                <td style={{ textAlign: "right" }}>&nbsp;&nbsp;<span className="winner-amount"><img src="images/steth.png" className="token-icon-winners"/>{NumberChop(winner.amount/1e18)}</span></td></tr>)
               })}
-              </table><br></br>Awarded {TimeAgo(prizeMap.timestamp)}
+              </table>
+              Awarded {TimeAgo(prizeMap.timestamp)}
               
               </div>}
               {modalFocus === "sponsors" && <div><div
@@ -1095,15 +1098,16 @@ function Dapp() {
                 onClick={() => closeModal()}
               ></div>
               
-              <span>SPONSORS</span><br></br><br></br><table className="winner-table">
+              <span className="title-modal">SPONSORS</span><br/>
+              <br/><table className="winner-table">
               
               {sponsorMap.map(sponsor=>{ return(
                 <tr>
                   {/* <td>{winner.winner.startsWith("0x7cf2eb") ? <span>GC</span> :
                 <img src="images/trophy.png" className="winner-icon"></img>}</td> */}
                 
-                <td><span className="winner-address">{sponsor.account.id.substring(0,8)}</span></td>
-                <td style={{ textAlign: "right" }}>&nbsp;&nbsp;<span className="winner-amount">{NumberChop(sponsor.balance/1e18)}</span></td></tr>)
+                <td><a target="_blank" href={"https://etherscan.io/address/" + sponsor.account.id} className="winner-address">{sponsor.account.id.substring(0,8)}</a></td>
+                <td style={{ textAlign: "right" }}>&nbsp;&nbsp;<span className="winner-amount"><img src="images/steth.png" className="token-icon-winners"/>{NumberChop(sponsor.balance/1e18)}</span></td></tr>)
               })}
               </table><br></br>
               <a href="https://docs.steth.win/sponsorship" target="_blank">Read more on sponsoring </a>
