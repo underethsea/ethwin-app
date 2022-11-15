@@ -30,7 +30,17 @@
 a {
   color: #7939ae;
 }
-.winner-table tr td {padding:3px;}
+.title-modal {
+  padding-right: 15%;
+  padding-left: 15%;
+  border-bottom: 1px solid gray;
+  padding-bottom: 5%;
+}
+
+.winner-table {
+  margin-bottom: 5%;
+}
+.winner-table tr td {padding: 3px;}
 .winner-amount {font-size:13px}
 .winner-address {font-size:13px}
 .winner-icon {height:15px;}
@@ -159,6 +169,10 @@ table td {
   height: 25px;
   width: 25px;
   padding-left: 3px;
+}
+.token-icon-winners{
+  height: 25px;
+  padding-bottom: 2px;
 }
 
 .lido-icon {
