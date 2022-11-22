@@ -1142,7 +1142,8 @@ async function getPlayers() {
                 <td style={{ textAlign: "right" }}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span className="winner-amount"><img src="images/steth.png" className="token-icon-winners"/>{NumberChop(winner.amount/1e18)}</span></td></tr>)
               })}
               </table>
-              Awarded {TimeAgo(prizeMap.timestamp)}
+              <span className="footer-modal">
+              Awarded {TimeAgo(prizeMap.timestamp)}</span>
               
               </div>}
              {/* {modalFocus === "sponsors" && <div><div
@@ -1166,43 +1167,37 @@ async function getPlayers() {
               
             </div>}*/}
 
-{modalFocus === "stats" && <div><div
-                className="closeModal close"
-                onClick={() => closeModal()}
-              ></div>
+              {modalFocus === "stats" && <div>
+                <div className="closeModal close" onClick={() => closeModal()}></div>
               
               <span className="title-modal">STATS</span><br></br><br></br>
               <table className="winner-table">
-              <tr><td>TVL</td>
-              <td style={{ textAlign: "right" }}>
-              <img src="images/steth.png" className="token"></img>
-                {NumberChop(poolInfo?.prizepool)}</td>
-              </tr>
-              {/* <tr><td>Prize APR</td>
-              <td style={{ textAlign: "right" }}>{(100*(52.14*((poolInfo.prizepool -
-                                  poolInfo.ethwinTotalSupply -
-                                  poolInfo.spethwinTotalSupply)) / poolInfo.ethwinTotalSupply)).toFixed(2)}%</td></tr> */}
+                  <tr><td><span className="winner-amount">TVL</span></td>
+                  <td style={{ textAlign: "right" }}>
+                  <img src="images/steth.png" className="token"></img>
+                  <span className="winner-amount">{NumberChop(poolInfo?.prizepool)}</span></td>
+                  </tr>
+                  {/* <tr><td>Prize APR</td>
+                  <td style={{ textAlign: "right" }}>{(100*(52.14*((poolInfo.prizepool -
+                                      poolInfo.ethwinTotalSupply -
+                                      poolInfo.spethwinTotalSupply)) / poolInfo.ethwinTotalSupply)).toFixed(2)}%</td></tr> */}
 
-              <tr><td>Cumulative Prize&nbsp;&nbsp;&nbsp;</td>
-              <td style={{ textAlign: "right" }}>
-              <img src="images/steth.png" className="token"></img>
-
-                {NumberChop(prizeGross/1e18)}</td></tr>
+                  <tr><td><span className="winner-amount">Cumulative Prize&nbsp;&nbsp;&nbsp;</span></td>
+                  <td style={{ textAlign: "right" }}>
+                  <img src="images/steth.png" className="token"></img>
+                  <span className="winner-amount">
+                    {NumberChop(prizeGross/1e18)}</span></td></tr>
                 </table><br></br>
-                {balances[0]?.ethwin.gt(BNZERO) && <span>
+
+                {balances[0]?.ethwin.gt(BNZERO) && <span className="footer-modal">
                 Your Weekly Odds 1 in&nbsp;
                   {NumberChop(1 / (1 - Math.pow(((poolInfo?.ethwinTotalSupply*PRIZE_SPLIT_PCT) - (parseFloat(balances[0]?.ethwin)/1e18)) / (PRIZE_SPLIT_PCT*poolInfo?.ethwinTotalSupply), NUMBER_OF_PRIZES)))}</span>}
-              
               
               </div>}
           {modalFocus === "withdrawWallet" && (
             <div>
-              <div
-                className="closeModal close"
-                onClick={() => closeModal()}
-              ></div>
+              <div className="closeModal close" onClick={() => closeModal()}></div>
               {!isConnected && "Please connect wallet"}
-
               {isConnected && (
                 <>
                   {" "}
@@ -1251,12 +1246,8 @@ async function getPlayers() {
                           <span className="small-balance">
                             Balance {ethers.utils.formatUnits(balances[0].ethwin,18)}
                             {balances[0].ethwin.gt(BNZERO) && (
-                              <span
-                                className="max-balance"
-                                onClick={(e) =>
-                                  setInputAmount(ethers.utils.formatUnits(balances[0].ethwin,18))
-                                }
-                              >
+                              <span className="max-balance" onClick={(e) => 
+                                setInputAmount(ethers.utils.formatUnits(balances[0].ethwin,18))}>
                                 &nbsp;MAX
                               </span>
                             )}

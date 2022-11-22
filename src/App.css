@@ -36,7 +36,14 @@ a {
   padding-right: 15%;
   padding-left: 15%;
   border-bottom: 1px solid gray;
-  padding-bottom: 5%;
+  padding-bottom: 12px;
+  font-size:17px;
+  font-weight:700;
+
+}
+.footer-modal {
+  font-size:16px;
+  font-weight:450;
 }
 
 .winner-table {
@@ -46,10 +53,10 @@ a {
   padding: 3px;
 }
 .winner-amount {
-  font-size: 13px;
+  font-size: 14px;
 }
 .winner-address {
-  font-size: 13px;
+  font-size: 14px;
 }
 .winner-icon {
   height: 15px;
