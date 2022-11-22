@@ -7,11 +7,12 @@ let query = `query($prizestrategy: String!, $ethwin: String!,$spethwin: String!,
     numberOfWinners,
       prizePeriodEndAt
     },
-    controlledTokenBalances(first:10,orderBy: balance,orderDirection:desc, where:
-      {controlledToken:$spethwin})
+    controlledTokenBalances(first:20,orderBy: balance,orderDirection:desc, where:
+      {controlledToken:$ethwin})
     {account{id},balance},
     prizePools(where:
     {id:$prizepool}){
+      cumulativePrizeGross,
       id,
       currentPrizeId,
       currentState,

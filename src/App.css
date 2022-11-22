@@ -256,6 +256,9 @@ body {
   font-size: 30px;
   font-weight: 600;
 }
+.myaddress {
+  height: 16px;
+}
 
 .dropdown-toggle {
   color: white !important;

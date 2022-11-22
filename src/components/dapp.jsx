@@ -37,6 +37,9 @@ import { ABI } from "../constants/abi.jsx";
 
 const BNZERO = ethers.BigNumber.from("0")
 const BNONEWEI = ethers.BigNumber.from("1")
+const NUMBER_OF_PRIZES = 2;
+const PRIZE_SPLIT_PCT = .5
+
 
 const ethValue = (amount) => {
   return ethers.utils.formatUnits(amount, 18);
@@ -131,6 +134,7 @@ function Dapp() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalFocus, setModalFocus] = useState("claim");
   const [allowances, setAllowances] = useState({});
+  const [prizeGross,setPrizeGross] = useState(0)
 
   const [inputAmount, setInputAmount] = useState("");
   const [validAddress, setValidAddress] = useState(true);
@@ -224,6 +228,26 @@ function Dapp() {
     }
   };
 
+async function getStats() {
+  let data = await GetSubgraphData("ETHEREUM")
+  console.log(data)
+  setPrizeGross(data.data.prizePools[0].cumulativePrizeGross)
+  setGraphInfo(data)
+  setModalFocus("stats")
+  setIsModalOpen(true);
+
+}
+
+async function getPlayers() {
+  // console.log("getting sponsors");
+  let data = await GetSubgraphData("ETHEREUM");
+  setGraphInfo(data);
+  let sponsorMap = data.data.controlledTokenBalances
+  console.log(sponsorMap)
+  setSponsorMap(sponsorMap);
+  setModalFocus("players");
+  setIsModalOpen(true);
+}
   async function getWinners() {
     console.log("getting winners");
     let data = await GetSubgraphData("ETHEREUM");
@@ -441,7 +465,7 @@ function Dapp() {
       return (
         isConnected && (
           <span>
-            {balances[0].steth.gt(BNZERO) && (
+            {balances[0].steth.gt(BNONEWEI) && (
               <span>
                 <span
                   className="open-wallet"
@@ -755,6 +779,7 @@ function Dapp() {
                     <br></br></center> </td></tr></thead></table>*/}
                 </table>
 <br></br>
+{!isModalOpen && <>
                 <table className=" middle-table">
                   <tr>
                     <td style={{ textAlign: "left" }}>
@@ -846,7 +871,7 @@ function Dapp() {
                               {/* {!isConnected && <span className="right-float">Connect your wallet amigo</span>} */}
 
                               {isConnected &&
-                                balances[0].steth.gt(BNZERO) && (
+                                balances[0].steth.gt(BNONEWEI) && (
                                   <tr>
                                     <td>
                                       <span className="token-text">STETH</span>
@@ -915,25 +940,27 @@ function Dapp() {
                     </table>
                     </div>
                 
-                    
-                )}
+                              
+                )}</>}
            </div>
             </center>
           </div>
           
         }
       </div>
+
       <Modal
         isOpen={isModalOpen}
         style={{
           overlay: {
             position: "fixed",
             margin: "auto",
-            top: "10%",
+            top: "8%",
             borderRadius: 10,
             width: 400,
             height: 300,
-            backgroundColor: "#343368",
+            background: "linear-gradient(141deg, rgb(21 35 56) 28%, rgb(145 93 213) 164%), rgba(41, 11, 90, 0.05)",
+            // backgroundColor: "#898d92",
             color: "black",
           },
           content: { inset: "34px" },
@@ -1073,6 +1100,31 @@ function Dapp() {
               <br></br>
             </div>
           )}
+          {modalFocus === "players" && <div><div
+                className="closeModal close"
+                onClick={() => closeModal()}
+              ></div>
+              
+              <span className="title-modal">PLAYERS</span><br></br><br></br><table className="winner-table">
+              
+              {sponsorMap.map(player=>{ return(
+                <tr>
+                  {/* <td>{winner.winner.startsWith("0x7cf2eb") ? <span>GC</span> :
+                <img src="images/trophy.png" className="winner-icon"></img>}</td> */}
+                
+                <td><span className="winner-address">
+                  {player.account.id.substring(0,8)}</span>
+                  {player.account.id.toLowerCase() === address?.toLowerCase() && <span>&nbsp;<img src="/images/poolerson.png" className="myaddress" /> </span>}
+
+                  </td>
+                <td style={{ textAlign: "right" }}>&nbsp;&nbsp;&nbsp;&nbsp;
+                <img src="images/steth.png" className="token"></img>
+
+                <span className="winner-amount">{NumberChop(player.balance/1e18)}</span></td></tr>)
+              })}
+              </table><br></br>
+              
+              </div>}
           {modalFocus === "winners" && <div><div
                 className="closeModal close"
                 onClick={() => closeModal()}
@@ -1087,13 +1139,13 @@ function Dapp() {
                 <img src="images/trophy.png" className="winner-icon"></img>}</td>
                 
                 <td><a target="_blank" href={"https://etherscan.io/address/" + winner.winner} className="winner-address">{winner.winner.substring(0,8)}</a></td>
-                <td style={{ textAlign: "right" }}>&nbsp;&nbsp;<span className="winner-amount"><img src="images/steth.png" className="token-icon-winners"/>{NumberChop(winner.amount/1e18)}</span></td></tr>)
+                <td style={{ textAlign: "right" }}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span className="winner-amount"><img src="images/steth.png" className="token-icon-winners"/>{NumberChop(winner.amount/1e18)}</span></td></tr>)
               })}
               </table>
               Awarded {TimeAgo(prizeMap.timestamp)}
               
               </div>}
-              {modalFocus === "sponsors" && <div><div
+             {/* {modalFocus === "sponsors" && <div><div
                 className="closeModal close"
                 onClick={() => closeModal()}
               ></div>
@@ -1103,14 +1155,44 @@ function Dapp() {
               
               {sponsorMap.map(sponsor=>{ return(
                 <tr>
-                  {/* <td>{winner.winner.startsWith("0x7cf2eb") ? <span>GC</span> :
-                <img src="images/trophy.png" className="winner-icon"></img>}</td> */}
-                
+                                                        {/* <td>{winner.winner.startsWith("0x7cf2eb") ? <span>GC</span> :
+                                                      <img src="images/trophy.png" className="winner-icon"></img>}</td> */}
+                {/*
                 <td><a target="_blank" href={"https://etherscan.io/address/" + sponsor.account.id} className="winner-address">{sponsor.account.id.substring(0,8)}</a></td>
                 <td style={{ textAlign: "right" }}>&nbsp;&nbsp;<span className="winner-amount"><img src="images/steth.png" className="token-icon-winners"/>{NumberChop(sponsor.balance/1e18)}</span></td></tr>)
               })}
               </table><br></br>
               <a href="https://docs.steth.win/sponsorship" target="_blank">Read more on sponsoring </a>
+              
+            </div>}*/}
+
+{modalFocus === "stats" && <div><div
+                className="closeModal close"
+                onClick={() => closeModal()}
+              ></div>
+              
+              <span className="title-modal">STATS</span><br></br><br></br>
+              <table className="winner-table">
+              <tr><td>TVL</td>
+              <td style={{ textAlign: "right" }}>
+              <img src="images/steth.png" className="token"></img>
+                {NumberChop(poolInfo?.prizepool)}</td>
+              </tr>
+              {/* <tr><td>Prize APR</td>
+              <td style={{ textAlign: "right" }}>{(100*(52.14*((poolInfo.prizepool -
+                                  poolInfo.ethwinTotalSupply -
+                                  poolInfo.spethwinTotalSupply)) / poolInfo.ethwinTotalSupply)).toFixed(2)}%</td></tr> */}
+
+              <tr><td>Cumulative Prize&nbsp;&nbsp;&nbsp;</td>
+              <td style={{ textAlign: "right" }}>
+              <img src="images/steth.png" className="token"></img>
+
+                {NumberChop(prizeGross/1e18)}</td></tr>
+                </table><br></br>
+                {balances[0]?.ethwin.gt(BNZERO) && <span>
+                Your Weekly Odds 1 in&nbsp;
+                  {NumberChop(1 / (1 - Math.pow(((poolInfo?.ethwinTotalSupply*PRIZE_SPLIT_PCT) - (parseFloat(balances[0]?.ethwin)/1e18)) / (PRIZE_SPLIT_PCT*poolInfo?.ethwinTotalSupply), NUMBER_OF_PRIZES)))}</span>}
+              
               
               </div>}
           {modalFocus === "withdrawWallet" && (
@@ -1227,18 +1309,35 @@ function Dapp() {
       {poolInfo?.prizepool > 0 && (
         <span className="tvl">
           {" "}
-          TVL {NumberChop(poolInfo?.prizepool)} stETH &nbsp;&nbsp;&nbsp; {chain?.id !==5 && <span><span
+          {/* TVL {NumberChop(poolInfo?.prizepool)} stETH &nbsp;&nbsp; */}
+          &nbsp; 
+          {chain?.id !==5 && <span>
+            <span
+                      onClick={() => getPlayers()}
+                      className="bottom-menu"
+                    >
+                      PLAYERS
+                    </span>
+            &nbsp;&nbsp;
+            <span
                       onClick={() => getWinners()}
                       className="bottom-menu"
                     >
                       WINNERS
                     </span>&nbsp;&nbsp;
+
                     <span
+                      onClick={() => getStats()}
+                      className="bottom-menu"
+                    >
+                      STATS
+                    </span>
+                    {/* <span
                       onClick={() => getSponsors()}
                       className="bottom-menu"
                     >
                       SPONSORS
-                    </span>
+                    </span> */}
                     </span>
                     }
         </span>
