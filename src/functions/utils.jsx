@@ -79,7 +79,7 @@ export const ChainObject = (chainId) => {
     } else if (chainId === 1) {
       return "ETHEREUM";
     } else {
-      console.log("chain not recognized", chainId);
+      // console.log("chain not recognized", chainId);
       return "ETHEREUM";
     }
   } catch (error) {

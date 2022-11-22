@@ -17,19 +17,21 @@
   padding-left: 0em;
 }
 .bottom-menu {
-  color:white!important;
+  color: white !important;
   cursor: pointer;
-  font-size:12px!important;
+  font-size: 12px !important;
   border: 1px solid white;
-  border-radius:3px;
-  padding:3px;
+  border-radius: 3px;
+  padding: 3px;
 }
 .bottom-menu:hover {
   border-color: rgb(250, 212, 250);
 }
+
 a {
   color: #7939ae;
 }
+
 .title-modal {
   padding-right: 15%;
   padding-left: 15%;
@@ -40,15 +42,23 @@ a {
 .winner-table {
   margin-bottom: 5%;
 }
-.winner-table tr td {padding: 3px;}
-.winner-amount {font-size:13px}
-.winner-address {font-size:13px}
-.winner-icon {height:15px;}
+.winner-table tr td {
+  padding: 3px;
+}
+.winner-amount {
+  font-size: 13px;
+}
+.winner-address {
+  font-size: 13px;
+}
+.winner-icon {
+  height: 15px;
+}
 .token-text {
   font-size: 14px;
 }
 
-.good-prize  {
+.good-prize {
   border: 1px solid rgb(51, 9, 66);
   border-radius: 2px;
   background-color: #937aec;
@@ -62,23 +72,19 @@ a {
   color: white;
   padding: 3px;
   border-radius: 2px;
-
-
 }
-
 
 .wallet-icon {
   height: 20px;
 }
 
 .pending-text {
-  font-size:13px;
-
+  font-size: 13px;
 }
 .numb-purp {
   color: #7333db;
-  padding-left: .2em;
-  padding-right: .2em;
+  padding-left: 0.2em;
+  padding-right: 0.2em;
 }
 
 table th,
@@ -96,14 +102,13 @@ table td {
   margin-top: 9px;
   vertical-align: top;
   cursor: pointer;
-  font-family: Inter,sans-serif!important;
-
+  font-family: Inter, sans-serif !important;
 }
 
 .wallet-div {
   position: absolute;
   right: 80px;
-  display: inline
+  display: inline;
 }
 
 .buy {
@@ -122,8 +127,6 @@ table td {
   width: 100%;
 } */
 
-
-
 .table-wrapper {
   border-radius: 16px;
 }
@@ -134,7 +137,7 @@ table td {
 }
 
 .transactions .card .card-header {
-  border-bottom: 1px solid rgba(24, 28, 33, .06);
+  border-bottom: 1px solid rgba(24, 28, 33, 0.06);
 }
 
 .card {
@@ -147,13 +150,12 @@ table td {
 
 .switch-btn {
   background-color: #63c1da;
-  padding-top: .25rem;
-  padding-bottom: .25rem;
-  padding-left: .8rem;
-  padding-right: .8rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  padding-left: 0.8rem;
+  padding-right: 0.8rem;
   border-radius: 9999px;
   cursor: pointer;
-
 }
 
 .navcolor {
@@ -170,7 +172,7 @@ table td {
   width: 25px;
   padding-left: 3px;
 }
-.token-icon-winners{
+.token-icon-winners {
   height: 25px;
   padding-bottom: 2px;
 }
@@ -192,20 +194,26 @@ table td {
 
 th,
 td {
-  font-family: 'verdana' !important;
+  font-family: "verdana" !important;
 
   font-weight: 800 !important;
 }
 
 html {
-  height: 100%
+  height: 100%;
 }
 
 body {
   min-height: 100%;
   padding-bottom: 40px;
   /* background: linear-gradient(334deg,#4c249f 28%,rgba(255,119,225,.9) 164%),#290b5a; */
-  background: linear-gradient(334deg, #0001d185 28%, rgb(202 119 255 / 88%) 164%), #290b5a0d;
+  /* background: linear-gradient(
+      334deg,
+      #0001d185 28%,
+      rgb(202 119 255 / 88%) 164%
+    ),
+    #290b5a0d; */
+    background: linear-gradient(334deg,#081d3b 28%,rgb(159 14 253 / 88%) 164%),rgba(41,11,90,.050980392156862744);
   color: white !important;
 }
 
@@ -213,10 +221,10 @@ body {
   /* background-color:#2e0a59!important;
   color:white; */
   /* background: linear-gradient(334deg,#4c249f 28%,rgba(255,119,225,.9) 164%),#290b5a!important; */
-  background: linear-gradient(334deg, #24789f 28%, rgb(202 119 255 / 88%) 164%), #290b5a0d;
+  background: linear-gradient(334deg, #24789f 28%, rgb(202 119 255 / 88%) 164%),
+    #290b5a0d;
   color: rgb(131, 115, 115) !important;
   background-color: #341662 !important;
-
 }
 
 .remove-underline {
@@ -232,23 +240,13 @@ body {
   width: 25px;
 }
 
-/* 
-.relative-div {
-  position:relative;
-}
-.child {
-  position: fixed;
-  top: 0;
-} */
-
 .child1 {
   left: 0;
-  opacity: .95;
+  opacity: 0.95;
 }
 
 .child2 {
   left: 20px;
-
 }
 
 .navbar-brand {
@@ -263,12 +261,10 @@ body {
   color: white !important;
   font-size: 20px;
   font-weight: 600;
-
 }
 
 .dropdown {
   padding-left: 400px;
-
 }
 
 .dropdown-menu {
@@ -276,24 +272,23 @@ body {
 }
 
 .table-inputamount td {
-  padding:0px;
+  padding: 0px;
 }
 .topData {
   display: inline-block;
-
 }
 .amount-container {
-  margin-top:18px;
-  margin-bottom:7px;
+  margin-top: 18px;
+  margin-bottom: 7px;
 }
 .addressText {
   display: inline-block;
 }
 
 .top-title {
-  font-size: 35px;
+  font-size: 42px;
   vertical-align: bottom;
-  color: #6f34d5
+  color: #6f34d5;
 }
 
 .timer-text {
@@ -301,11 +296,9 @@ body {
   color: #311563;
 }
 
-
-
 .protocol table {
   display: inline;
-  border-radius: .25em;
+  border-radius: 0.25em;
   margin: 5px;
   overflow: hidden;
   margin-left: 100px;
@@ -313,7 +306,6 @@ body {
 
 .trophy {
   height: 32px;
-
 }
 
 .table {
@@ -333,7 +325,6 @@ body {
 
 .tdcenter td {
   text-align: center;
-
 }
 
 .protocol td {
@@ -350,7 +341,7 @@ body {
 
 @media only screen and (max-width: 1280px) {
   .wallet-div {
-    right: 400px
+    right: 400px;
   }
 }
 
@@ -369,10 +360,11 @@ body {
     font-size: 11px;
   }
 }
-
+.space-above {
+  margin-top:11px;
+}
 @media only screen and (max-width: 600px) {
   .protocol table {
-
     margin-left: 10px;
   }
 
@@ -380,12 +372,12 @@ body {
     padding-left: 80px;
   }
 
+  
   .addressText {
     width: 140px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-
   }
 
   .addressTextShort {
@@ -393,8 +385,6 @@ body {
     white-space: nowrap;
     overflow: hidden;
     /* text-overflow: ellipsis; */
-
-
   }
 
   .dropdown-menu {
@@ -404,12 +394,9 @@ body {
   /* .topData {
     display:block;
   } */
-
 }
 
 @media only screen and (max-width: 350px) {
-
-
   .addressTextOldPhones {
     width: 80px;
   }
@@ -440,7 +427,7 @@ body {
 }
 
 .blue-hover:hover {
-  background-color: #b8f8f266
+  background-color: #b8f8f266;
 }
 
 .stamp {
@@ -453,7 +440,7 @@ body {
   padding: 2px 4px;
   text-transform: uppercase;
   border-radius: 1rem;
-  font-family: 'Courier';
+  font-family: "Courier";
   /* -webkit-mask-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/8399/grunge.png');
   -webkit-mask-size: 944px 604px; */
   /*   mix-blend-mode: multiply; */
@@ -474,9 +461,9 @@ body {
   text-transform: uppercase;
   border-radius: 1rem;
 
-  font-family: 'Courier';
+  font-family: "Courier";
 
-    font-family: Inter,sans-serif;
+  font-family: Inter, sans-serif;
 
   /* -webkit-mask-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/8399/grunge.png');
   -webkit-mask-size: 944px 604px; */
@@ -487,108 +474,99 @@ body {
   max-width: 360px;
 }
 .get-token {
-  color:black;
-  font-size:13px;
-  font-family: Inter,sans-serif!important;
-
+  color: black;
+  font-size: 13px;
+  font-family: Inter, sans-serif !important;
 }
 .middle-table {
-  background-color:#ececfa;
-  color:black;
-  max-width:360px;
-  width:100%;
-  box-shadow:0 .5rem 1rem rgba(0,0,0,.15)!important;
-  border-radius: .25rem!important;
+  background-color: #ececfa;
+  color: black;
+  max-width: 360px;
+  width: 100%;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  border-radius: 0.25rem !important;
   /* border-radius:20px!important; */
 }
-.top-table{
-  max-width:360px;
-  box-shadow:0 .5rem 1rem rgba(0,0,0,.15)!important;
-  border-radius: .25rem!important;
+.top-table {
+  max-width: 360px;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  border-radius: 0.25rem !important;
   /* border-radius:20px!important; */
-
 }
-.wallet-table{
-  min-width:230px;
+.wallet-table {
+  min-width: 230px;
 }
 .bottom-table {
   width: 100%;
   background-color: #ececfa;
-  max-width:360px;
-  box-shadow:0 .5rem 1rem rgba(0,0,0,.15)!important;
-  border-radius: .25rem!important;
+  max-width: 360px;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+  border-radius: 0.25rem !important;
   /* border-radius:20px!important; */
-
 }
 
-
-  
-  .info-text {
-  color:#505051;
-  font-size:10px;
+.info-text {
+  color: #505051;
+  font-size: 10px;
 }
 .padding-top {
- padding-top:12px;
+  padding-top: 12px;
 }
 .padding-bottom {
-  padding-bottom:12px;
+  padding-bottom: 12px;
 }
 .inner-middle-table td {
-  padding:15px;
-  width:100%;
- 
+  padding: 15px;
+  width: 100%;
 }
 .wallet-buttons {
-  margin-top:3px;
-  margin-bottom:4px;
-  display:inline-block;
+  margin-top: 3px;
+  margin-bottom: 4px;
+  display: inline-block;
 }
 .text-one {
-  font-family: Inter,sans-serif!important;
+  font-family: Inter, sans-serif !important;
 
-  font-size:16px;
-  color:#48474b
+  font-size: 16px;
+  color: #48474b;
 }
 .text-two {
-  font-family: Inter,sans-serif!important;
+  font-family: Inter, sans-serif !important;
 
-  font-size:16px;
-  color:#48474b
+  font-size: 16px;
+  color: #48474b;
 }
-.top-left-image{
-  height:50px;
-  margin-left:10px;
-  margin-top:10px;
+.top-left-image {
+  height: 50px;
+  margin-left: 10px;
+  margin-top: 10px;
 }
 .botton-table {
-  background-color:rgb(59, 8, 59);
+  background-color: rgb(59, 8, 59);
 }
 .text-three {
-  font-family: Inter,sans-serif!important;
+  font-family: Inter, sans-serif !important;
 
   font-size: 16px;
   color: rgb(138 43 138);
-
 }
 .text-four {
-  font-family: Inter,sans-serif!important;
+  font-family: Inter, sans-serif !important;
 
   font-size: 16px;
-  color:#48474b
+  color: #48474b;
 }
 .eth-title {
-  height:58px;
+  height: 58px;
 }
 .bottom-menu {
   display: inline-block;
   cursor: pointer;
-  color:black;
-  font-size:16px;
-  
+  color: black;
+  font-size: 16px;
 }
 
 .actionButton {
-
   color: #6f34d5;
   font-size: 17px;
   font-weight: 700;
@@ -597,8 +575,8 @@ body {
   padding: 2px 4px;
   text-transform: uppercase;
   border-radius: 0.5rem;
-  font-family: 'Courier';
-  font-family: Pilot,sans-serif!important;
+  font-family: "Courier";
+  font-family: Pilot, sans-serif !important;
 
   /* -webkit-mask-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/8399/grunge.png');
   -webkit-mask-size: 944px 604px; */
@@ -610,16 +588,15 @@ body {
 }
 
 .actionButton:hover {
-  background-color: #e3b8f82e
+  background-color: #e3b8f82e;
 }
 
 .expired-stamp {
   color: rgb(147, 131, 131) !important;
-  border-color: rgb(107, 103, 103)
+  border-color: rgb(107, 103, 103);
 }
 
 @media only screen and (max-width: 350px) {
-
   .address-input {
     width: 320px;
     size: 8px;
@@ -632,7 +609,7 @@ a.dropdown-item:hover {
 }
 
 .navbar-toggler-icon {
-  background-image: url('https://icon-library.com/images/hamburger-menu-icon-png-white/hamburger-menu-icon-png-white-10.jpg') !important;
+  background-image: url("https://icon-library.com/images/hamburger-menu-icon-png-white/hamburger-menu-icon-png-white-10.jpg") !important;
 }
 
 .twenty-two {
@@ -665,7 +642,7 @@ a.dropdown-item:hover {
   }
 
   .show-mobile {
-    display: inline
+    display: inline;
   }
 
   .header-mobile {
@@ -681,19 +658,19 @@ a.dropdown-item:hover {
   width: 500px;
 }
 
-@media only screen and (min-width:300px) {
+@media only screen and (min-width: 300px) {
   .cool-pooly {
     width: 300px;
   }
 }
 
-@media only screen and (min-width:767px) {
+@media only screen and (min-width: 767px) {
   .cool-pooly {
     width: 500px;
   }
 }
 
-@media only screen and (min-width:767px) {
+@media only screen and (min-width: 767px) {
   .show-mobile {
     display: none;
   }
@@ -716,7 +693,6 @@ a.dropdown-item:hover {
   cursor: pointer;
   padding-left: 10px;
   width: 36px;
-
 }
 
 .yo-soy:hover {
@@ -753,7 +729,6 @@ a.dropdown-item:hover {
   padding: 8px;
   margin-left: 15px;
   margin-right: 15px;
-
 }
 
 .right-float {
@@ -767,7 +742,6 @@ a.dropdown-item:hover {
 .github {
   margin-right: 10px;
   width: 28px;
-
 }
 
 .discord {
@@ -781,7 +755,7 @@ a.dropdown-item:hover {
 }
 .more-info {
   /* height:18px; */
-  width:18px;
+  width: 18px;
 }
 
 .boticon {
@@ -789,18 +763,18 @@ a.dropdown-item:hover {
   position: fixed;
   bottom: 8px;
 }
-.tvl {  
-  bottom:7px;
+.tvl {
+  bottom: 7px;
   position: fixed;
   left: 8px;
-  font-size:13px;
+  font-size: 13px;
 }
 .main-table {
-  background-color:#ececfa;
+  background-color: #ececfa;
 }
-.top-title-text{
-  padding-bottom:2px;
-  font-size:13px;
+.top-title-text {
+  padding-bottom: 2px;
+  font-size: 13px;
   color: #48474b;
-  font-family: Inter,sans-serif!important;
+  font-family: Inter, sans-serif !important;
 }

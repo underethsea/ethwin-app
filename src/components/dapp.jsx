@@ -2,11 +2,11 @@ import React, { useState, useEffect, useCallback } from "react";
 import Select from "react-select";
 
 import Modal from "react-modal";
-import "./modal.css";
+import "../modal.css";
 import { Timer } from "./timer";
 import CountUp from "react-countup";
 
-import { GetSubgraphData } from "./graphData";
+import { GetSubgraphData } from "../functions/graphData";
 import { ethers } from "ethers";
 import {
   chain,
@@ -26,11 +26,11 @@ import "react-toastify/dist/ReactToastify.css";
 import {
   Separator, EstimatePrize, ChainObject,
   TimeAgo, NumberChop, DecimalsForCount
-} from "./utils"
+} from "../functions/utils"
 
-import { CONTRACT } from "./contractConnect.jsx";
-import { ADDRESS } from "./address.jsx";
-import { ABI } from "./abi.jsx";
+import { CONTRACT } from "../constants/contractConnect.jsx";
+import { ADDRESS } from "../constants/address.jsx";
+import { ABI } from "../constants/abi.jsx";
 
 // hardcoded for now | in utils
 // const stEthYield = 0.05;

@@ -1,4 +1,4 @@
-import { ADDRESS, URL } from "./address";
+import { ADDRESS, URL } from "../constants/address";
 
 let query = `query($prizestrategy: String!, $ethwin: String!,$spethwin: String!,$prizepool: String! ){
     multipleWinnersPrizeStrategies(where:
