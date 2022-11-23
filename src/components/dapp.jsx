@@ -855,8 +855,8 @@ async function getPlayers() {
                 <br></br>
                 
                 {isConnected && (
-                  <div className="bottom-table ">
-                    <table className="padded">
+                  <>
+                    <table className="padded bottom-table">
                         <th>
                           {" "}
                           <center>
@@ -923,26 +923,17 @@ async function getPlayers() {
                                 </tr>
                               )}
                             </table>
-                          </center>
-                        </th>
-                   
-                    </table>
-                    <table className="bottom-table padded bottom-table">
-                    
-                        <tr>
-                          <td>
-                            <center>
-                              <div className="wallet-buttons padding-bottom">
+                            <div className="wallet-buttons padding-bottom padding-top">
                                 <GetStethNow />
                                 <DepositButton />
                                 <WithdrawButton />
                               </div>
-                            </center>{" "}
-                          </td>
-                        </tr>
-                      
+                          </center>
+                        </th>
+                   
                     </table>
-                    </div>
+                    
+                    </>
                 
                               
                 )}</>}
