@@ -319,9 +319,9 @@ async function getPlayers() {
       addressOrName: ADDRESS[ChainObject(chain)].PRIZEPOOL,
       contractInterface: ABI.PRIZEPOOL,
       functionName: "withdrawInstantlyFrom",
-      // overrides: {
-      //   gasLimit: 625000,
-      // },
+      overrides: {
+        gasLimit: 425000,
+      },
     });
   
   // ------ DEPOSIT TRANSACTION CONFIG -------- //  
@@ -339,9 +339,9 @@ async function getPlayers() {
     addressOrName: ADDRESS[ChainObject(chain)].PRIZEPOOL,
     contractInterface: ABI.PRIZEPOOL,
     functionName: "depositTo",
-    // overrides: {
-    //   gasLimit: 625000,
-    // },
+    overrides: {
+      gasLimit: 425000,
+    },
   });
 
   // ------ APPROVE TRANSACTION CONFIG -------- //
@@ -357,6 +357,10 @@ async function getPlayers() {
     addressOrName: ADDRESS[ChainObject(chain)].STETH,
     contractInterface: ABI.ERC20,
     functionName: "approve",
+    
+    overrides: {
+      gasLimit: 95000,
+    },
   });
 
   const {
