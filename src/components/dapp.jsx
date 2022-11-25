@@ -147,7 +147,7 @@ function Dapp() {
   const [modalFocus, setModalFocus] = useState("claim");
   const [allowances, setAllowances] = useState({});
   const [prizeGross,setPrizeGross] = useState(0)
-
+  const [withdrawButton,setWithdrawButton] = useState("WITHDRAW")
   const [inputAmount, setInputAmount] = useState("");
   const [validAddress, setValidAddress] = useState(true);
   const [prizePoolAddress, setPrizePoolAddress] = useState(
@@ -250,6 +250,27 @@ async function getStats() {
   setModalFocus("stats")
   setIsModalOpen(true);
 
+}
+
+async function calculateExitFee(exitFeeAddress, exitFeeDeposit) {
+  // console.log(
+  //   "exit feee calc fetch",
+  //   exitFeeAddress,
+  //   ADDRESS[ChainObject(chain)].TICKET,
+  //   exitFeeDeposit
+  // );
+  let exitFee = await CONTRACT[
+    ChainObject(chain)
+  ].PRIZEPOOL.callStatic.calculateEarlyExitFee(
+    exitFeeAddress,
+    ADDRESS[ChainObject(chain)].ETHWIN,
+    exitFeeDeposit
+  );
+  // console.log("exitfee", exitFee[1].toString()) // index 0 is burned credit - 1 is exit fee
+  // exitFee = parseInt(exitFee[1]) * 1.05
+  // return exitFee.toString();
+  console.log("fee", exitFee.exitFee.toString());
+  return exitFee.exitFee.toString();
 }
 
 async function getPlayers() {
@@ -595,6 +616,8 @@ async function getPlayers() {
   };
 
   const withdrawFrom = async () => {
+    let okToWithdraw = false
+    if(withdrawButton === "OK WITHDRAW WITH FEE") {okToWithdraw = true}
     try {
       let withdrawBalance = 0;
       console.log("withdraw balance", balances[0].ethwin);
@@ -613,7 +636,11 @@ async function getPlayers() {
           ChainObject(chain)
         ].PRIZESTRATEGY.isRngRequested();
         if (!rngStatus) {
-          withdrawWrite();
+          let exitFee = await calculateExitFee(address,
+            amountFormatForSend(inputAmount))
+            exitFee = exitFee / 1e18
+          if(exitFee > 0 && okToWithdraw === false) {setWalletMessage("FEE " + NumberChop(exitFee) + " POOL");setWithdrawButton("OK WITHDRAW WITH FEE")}
+          else{withdrawWrite();setWithdrawButton("WITHDRAW")}
         } else {
           setWalletMessage("prize is being awarded");
           console.log("prize is being awarded");
@@ -1295,7 +1322,7 @@ async function getPlayers() {
                       onClick={() => withdrawFrom()}
                       className="myButton purple-hover"
                     >
-                      WITHDRAW
+                      {withdrawButton}
                     </button>
                   )}
                 </>
