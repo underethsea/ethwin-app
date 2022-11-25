@@ -466,7 +466,7 @@ async function getPlayers() {
         return (
           <div>
             <span className="get-token">WANNA WIN? GET stETH <a href="https://app.uniswap.org">
-              <span title="Uniswap"><img src="images/uniswap.png" className="token-icon"/></span></a>
+              <span title="Uniswap"><img src="images/uniswap.webp" className="token-icon"/></span></a>
               <span title="Lido"><a href="https://stake.lido.fi/"><img src="images/lido.png" className="lido-icon"></img></a></span>
               </span>
           </div>
