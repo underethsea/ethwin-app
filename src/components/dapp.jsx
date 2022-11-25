@@ -33,8 +33,7 @@ import { ADDRESS } from "../constants/address.jsx";
 import { ABI } from "../constants/abi.jsx";
 
 // hardcoded for now | in utils
-// const stEthYield = 0.05;
-
+const STETH_APY = 5 // fallback if not fetched
 const BNZERO = ethers.BigNumber.from("0")
 const BNONEWEI = ethers.BigNumber.from("1")
 const NUMBER_OF_PRIZES = 2;
@@ -94,12 +93,25 @@ function Dapp() {
       CONTRACT[ChainObject(chain)].ETHWIN.totalSupply(),
       CONTRACT[ChainObject(chain)].PRIZESTRATEGY.prizePeriodRemainingSeconds(),
     ]);
+    let stethDayApy = STETH_APY
+    let stethMonthApy = STETH_APY
+    let isStethApyFetch = false
+    try {
+      let apy = await fetch("https://poolexplorer.xyz/lidoApy")
+      apy = await apy.json()
+      stethDayApy = apy.day
+      stethMonthApy = apy.month
+      isStethApyFetch = true
+      } catch{console.log("lido apy fetch error")}
 
     let poolStats = {
       prizepool: ethValue(prizePoolBalance),
       ethwinTotalSupply: ethValue(ethwinTotalSupply),
       spethwinTotalSupply: ethValue(spethwinTotalSupply),
       remainingSeconds: parseInt(prizePeriodRemainingSeconds),
+      stethDayApy: stethDayApy,
+      stethMonthApy: stethMonthApy,
+      isStethApyFetch: isStethApyFetch
     };
     // console.log("stats", poolStats);
     return poolStats;
@@ -229,7 +241,9 @@ function Dapp() {
   };
 
 async function getStats() {
+  
   let data = await GetSubgraphData("ETHEREUM")
+  
   console.log(data)
   setPrizeGross(data.data.prizePools[0].cumulativePrizeGross)
   setGraphInfo(data)
@@ -710,7 +724,8 @@ async function getPlayers() {
                                   poolInfo.spethwinTotalSupply +
                                   EstimatePrize(
                                     poolInfo.prizepool,
-                                    poolInfo.remainingSeconds
+                                    poolInfo.remainingSeconds,
+                                    poolInfo.stethDayApy
                                   )
                               )}
                             {/* {!isNaN(poolInfo.prizepool) && <CountUp start={0}
@@ -1182,12 +1197,14 @@ async function getPlayers() {
                   <img src="images/steth.png" className="token"></img>
                   <span className="winner-amount">
                     {NumberChop(prizeGross/1e18)}</span></td></tr>
+                    {poolInfo?.isStethApyFetch  && <tr>
+                    <td><span className="winner-amount">stETH 30d APY</span></td><td style={{ textAlign: "right" }}><span className="winner-amount">{poolInfo.stethMonthApy}%</span></td></tr>}
                 </table><br></br>
 
                 {balances[0]?.ethwin.gt(BNZERO) && <span className="footer-modal">
                 Your Weekly Odds 1 in&nbsp;
                   {NumberChop(1 / (1 - Math.pow(((poolInfo?.ethwinTotalSupply*PRIZE_SPLIT_PCT) - (parseFloat(balances[0]?.ethwin)/1e18)) / (PRIZE_SPLIT_PCT*poolInfo?.ethwinTotalSupply), NUMBER_OF_PRIZES)))}</span>}
-              
+                
               </div>}
           {modalFocus === "withdrawWallet" && (
             <div>
