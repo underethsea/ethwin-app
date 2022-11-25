@@ -38,11 +38,11 @@ export const NumberChop = (biginput) => {
   } else if (number > 0.01) {
     return number.toFixed(4);
   } else if (number > 0.00001) {
-    return number.toFixed(8);
+    return number.toFixed(7);
   } else if (number > 0.00000001) {
-    return number.toFixed(11);
+    return number.toFixed(9);
   } else if (number > 0.0000000001) {
-    return number.toFixed(13);
+    return number.toFixed(12);
   } else {
     return biginput;
   }

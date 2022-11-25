@@ -139,7 +139,7 @@ function Dapp() {
   const [poolInfo, setPoolInfo] = useState({});
   const [prizeMap, setPrizeMap] = useState([]);
   const [sponsorMap, setSponsorMap] = useState([]);
-
+  const [winnerDrawDisplay, setWinnerDrawDisplay]  = useState(0)
   const [addressValue, setAddressValue] = useState("");
   const [popup, setPopup] = useState(Boolean);
   const [graphInfo, setGraphInfo] = useState([]);
@@ -283,22 +283,22 @@ async function getPlayers() {
   setModalFocus("players");
   setIsModalOpen(true);
 }
+function changeWinnerDraw(change) {
+  setWinnerDrawDisplay(winnerDrawDisplay + change)
+}
   async function getWinners() {
     console.log("getting winners");
     let data = await GetSubgraphData("ETHEREUM");
     setGraphInfo(data);
     console.log("got graph info", data);
     let drawId = data.data.prizePools[0].currentPrizeId
-    let awardedTimestamp = data.data.prizePools[0].prizes[data.data.prizePools[0].prizes.length-1].awardedTimestamp
     let winnerMap = data.data.prizePools[0].prizes.reverse()
-    winnerMap = winnerMap[0].awardedControlledTokens
-    let winnerData = {
-      timestamp: awardedTimestamp,
-      drawId: drawId,
-      winnerMap: winnerMap
-    }
-    console.log(winnerData)
-    setPrizeMap(winnerData);
+    let draws = winnerMap.length
+    let winHistory = []
+    winnerMap.forEach(mappedDraw => {winHistory.push({timestamp:mappedDraw.awardedTimestamp,drawId:draws,winnerMap: mappedDraw.awardedControlledTokens});draws -= 1})
+    console.log(winHistory)
+    setPrizeMap(winHistory);
+    setWinnerDrawDisplay(0);
     setModalFocus("winners");
     setIsModalOpen(true);
   }
@@ -507,7 +507,7 @@ async function getPlayers() {
             {balances[0].steth.gt(BNONEWEI) && (
               <span>
                 <span
-                  className="open-wallet"
+                  className="pointer"
                   onClick={() => {
                     openWallet();
                   }}
@@ -535,7 +535,7 @@ async function getPlayers() {
           <span>
             {balances[0].ethwin.gt(BNZERO)  && (
               <span
-                className="open-wallet"
+                className="pointer"
                 onClick={() => {
                   openWalletWithdraw();
                 }}
@@ -556,7 +556,7 @@ async function getPlayers() {
   //   if (isNaN(parseInt(graphInfo?.data?.prizePools[0].currentPrizeId))) {
   //     return (
 
-  //         <span className="open-wallet" onClick={() => { openAward(); }}>&nbsp;
+  //         <span className="pointer" onClick={() => { openAward(); }}>&nbsp;
   //           <span className="actionButton display-not-block">AWARD PRIZE</span>&nbsp;
 
   //     </span>
@@ -1167,20 +1167,27 @@ async function getPlayers() {
                 onClick={() => closeModal()}
               ></div>
               
-              <span className="title-modal">DRAW {prizeMap.drawId} WINNERS</span>
+              <span className="title-modal">DRAW #{prizeMap[winnerDrawDisplay].drawId} WINNERS</span>
               <br/>
               <br/>
               <table className="winner-table">
-              {prizeMap.winnerMap.map(winner=>{ return(
+              {prizeMap[winnerDrawDisplay].winnerMap.map(winner=>{ return(
                 <tr><td>{winner.winner.startsWith("0x7cf2eb") ? <img title="Charity address" src="images/charityIcon.png" className="winner-icon"/> :
                 <img src="images/trophy.png" className="winner-icon"></img>}</td>
                 
-                <td><a target="_blank" href={"https://etherscan.io/address/" + winner.winner} className="winner-address">{winner.winner.substring(0,8)}</a></td>
-                <td style={{ textAlign: "right" }}>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span className="winner-amount"><img src="images/steth.png" className="token-icon-winners"/>{NumberChop(winner.amount/1e18)}</span></td></tr>)
+                <td><a target="_blank" href={"https://etherscan.io/address/" + winner.winner} className="winner-address">{winner.winner.substring(0,8)}</a>
+                {winner.winner.toLowerCase() === address?.toLowerCase() && <span>&nbsp;<img src="/images/poolerson.png" className="myaddress" /> </span>}
+
+                </td>
+                <td style={{ textAlign: "right" }}>&nbsp;&nbsp;&nbsp;&nbsp;<span className="winner-amount"><img src="images/steth.png" className="token-icon-winners"/>{NumberChop(winner.amount/1e18)}</span></td></tr>)
               })}
               </table>
               <span className="footer-modal">
-              Awarded {TimeAgo(prizeMap.timestamp)}</span>
+              { winnerDrawDisplay > 0 ? <img src="images/arrow-left.svg" className="pointer"  onClick={() => changeWinnerDraw(-1)}/> : <span>&emsp;</span>}
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              Awarded {TimeAgo(prizeMap[winnerDrawDisplay].timestamp)}</span>
+              &nbsp;&nbsp;&nbsp;&nbsp;
+              { winnerDrawDisplay < (prizeMap.length - 1) ? <img src="images/arrow-right.svg" className="pointer" onClick={() => changeWinnerDraw(1)}/> : <span>&emsp;</span>}
               
               </div>}
              {/* {modalFocus === "sponsors" && <div><div
@@ -1342,6 +1349,13 @@ async function getPlayers() {
           {/* TVL {NumberChop(poolInfo?.prizepool)} stETH &nbsp;&nbsp; */}
           &nbsp; 
           {chain?.id !==5 && <span>
+
+            <span
+                      onClick={() => getWinners()}
+                      className="bottom-menu"
+                    >
+                      WINNERS
+                    </span>&nbsp;&nbsp;
             <span
                       onClick={() => getPlayers()}
                       className="bottom-menu"
@@ -1349,12 +1363,6 @@ async function getPlayers() {
                       PLAYERS
                     </span>
             &nbsp;&nbsp;
-            <span
-                      onClick={() => getWinners()}
-                      className="bottom-menu"
-                    >
-                      WINNERS
-                    </span>&nbsp;&nbsp;
 
                     <span
                       onClick={() => getStats()}

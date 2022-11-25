@@ -264,7 +264,7 @@ body {
   font-weight: 600;
 }
 .myaddress {
-  height: 16px;
+  height: 21px;
 }
 
 .dropdown-toggle {
@@ -349,11 +349,8 @@ body {
   border-radius: 10px;
 }
 
-@media only screen and (max-width: 1280px) {
-  .wallet-div {
-    right: 400px;
-  }
-}
+
+
 
 @media only screen and (max-width: 900px) {
   .wallet-div {
@@ -567,7 +564,7 @@ body {
   color: #48474b;
 }
 .eth-title {
-  height: 58px;
+  height: 75px;
 }
 .bottom-menu {
   display: inline-block;
@@ -709,7 +706,7 @@ a.dropdown-item:hover {
   fill: #1fb0cd;
 }
 
-.open-wallet {
+.pointer {
   cursor: pointer;
 }
 

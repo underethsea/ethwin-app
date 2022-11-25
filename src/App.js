@@ -60,7 +60,7 @@ function App() {
   return (
     <WagmiConfig client={wagmiClient}>
       <RainbowKitProvider chains={chains} modalSize="compact" >
-        <img src="images/poolerson.png" className="top-left-image" />
+        {/* <img src="images/poolerson.png" className="top-left-image" /> */}
         <MyConnect label="Sign in" showBalance={{
           smallScreen: false,
           largeScreen: true,
