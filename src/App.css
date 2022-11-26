@@ -344,6 +344,8 @@ body {
   padding-bottom: 10px;
   padding-top: 10px;
 }
+.color-opaque {
+opacity:0}
 .prize-token-text {
   color:rgb(61, 61, 61);
   font-size:11px;

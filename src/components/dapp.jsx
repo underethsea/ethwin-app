@@ -751,7 +751,7 @@ function changeWinnerDraw(change) {
                                     poolInfo.remainingSeconds,
                                     poolInfo.stethDayApy
                                   )
-                              ) : <span className="blank-prize">-.-----</span>}&nbsp;&nbsp;</div>
+                              ) : <span className="blank-prize color-opaque">0.0000</span>}&nbsp;&nbsp;</div>
                               <div className="prize-token-text">stETH</div>
                               </div>
                             </div></center>
