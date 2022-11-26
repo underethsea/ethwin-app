@@ -344,7 +344,18 @@ body {
   padding-bottom: 10px;
   padding-top: 10px;
 }
+.prize-token-text {
+  color:rgb(61, 61, 61);
+  font-size:11px;
+  float:right;
+  margin-right:17px;
+  margin-top:-13px;
+}
 
+.top-info {
+  display:flex;
+  justify-content: center;
+}
 .protocol thead {
   border-radius: 10px;
 }
@@ -781,7 +792,7 @@ a.dropdown-item:hover {
 }
 .top-title-text {
   padding-bottom: 2px;
-  font-size: 13px;
+  font-size: 14px;
   color: #48474b;
   font-family: Inter, sans-serif !important;
 }

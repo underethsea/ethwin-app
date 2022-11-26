@@ -31,7 +31,7 @@ const renderer = ({ days, hours, minutes, seconds, completed }) => {
   } else {
     // Render a countdown
     return (
-      <div className="space-above">
+      <div>
         {/* <span className="timer-text">Next WINS</span> */}
 
         <span>

@@ -735,16 +735,13 @@ function changeWinnerDraw(change) {
                         <center><div className="padding-top">
                           {/* <img src="images/trophyeth.png" className="trophy"></img>&nbsp; */}
                           <span className="top-title">
-                          <div class="top-title-text">WEEKLY WINNING</div>
-                          <img src="/images/ethbrand.png" className="eth-title"></img>
-
-                            {/* Prize value */}
-                            {/* <img
-                              src="/images/trophy.png"
-                              className="trophy"
-                            ></img> */}
-                            &nbsp;
-                            {!isNaN(poolInfo.prizepool) &&
+                          <div className="top-title-text">WEEKLY WINNING</div>
+                        <center>
+                          <div className="top-info">
+                            <div><img src="/images/ethbrand.png" className="eth-title"></img></div>
+                            <div><div>
+                             &nbsp;
+                            {!isNaN(poolInfo.prizepool) ?
                               NumberChop(
                                 poolInfo.prizepool -
                                   poolInfo.ethwinTotalSupply -
@@ -754,7 +751,18 @@ function changeWinnerDraw(change) {
                                     poolInfo.remainingSeconds,
                                     poolInfo.stethDayApy
                                   )
-                              )}
+                              ) : <span className="blank-prize">-.-----</span>}&nbsp;&nbsp;</div>
+                              <div className="prize-token-text">stETH</div>
+                              </div>
+                            </div></center>
+                          
+
+                            {/* Prize value */}
+                            {/* <img
+                              src="/images/trophy.png"
+                              className="trophy"
+                            ></img> */}
+                           
                             {/* {!isNaN(poolInfo.prizepool) && <CountUp start={0}
                             end={NumberChop(
                               poolInfo.prizepool -
