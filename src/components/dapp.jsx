@@ -225,9 +225,13 @@ function Dapp() {
       let drawId = data.data.prizePools[0].currentPrizeId
       let winnerMap = data.data.prizePools[0].prizes.reverse()
       let draws = winnerMap.length
+      // remove first two test draws
+      draws = draws - 2
       let winHistory = []
       winnerMap.forEach(mappedDraw => {winHistory.push({timestamp:mappedDraw.awardedTimestamp,drawId:draws,winnerMap: mappedDraw.awardedControlledTokens});draws -= 1})
-      console.log(winHistory)
+      // console.log(winHistory)
+      // remove first two test draws
+      winHistory.splice(winHistory.length-2,winHistory.length-1)
       setPrizeMap(winHistory);
       setWinnerDrawDisplay(0);
       setModalFocus("winners");
@@ -1243,11 +1247,12 @@ async function calculateExitFee(exitFeeAddress, exitFeeDeposit) {
                     {NumberChop(prizeGross/1e18)}</span></td></tr>
                     {poolInfo?.isStethApyFetch  && <tr>
                     <td><span className="winner-amount">stETH 30d APY</span></td><td style={{ textAlign: "right" }}><span className="winner-amount">{poolInfo.stethMonthApy}%</span></td></tr>}
-                </table><br></br>
+                </table>
 
-                {balances[0]?.ethwin.gt(BNZERO) && <span className="footer-modal">
+                {balances[0]?.ethwin.gt(BNZERO) && <div className="footer-modal footer-margin">
                 Your Weekly Odds 1 in&nbsp;
-                  {NumberChop(1 / (1 - Math.pow(((poolInfo?.ethwinTotalSupply*PRIZE_SPLIT_PCT) - (parseFloat(balances[0]?.ethwin)/1e18)) / (PRIZE_SPLIT_PCT*poolInfo?.ethwinTotalSupply), NUMBER_OF_PRIZES)))}</span>}
+                  {NumberChop(1 / (1 - Math.pow(((poolInfo?.ethwinTotalSupply*PRIZE_SPLIT_PCT) - (parseFloat(balances[0]?.ethwin)/1e18)) / (PRIZE_SPLIT_PCT*poolInfo?.ethwinTotalSupply), NUMBER_OF_PRIZES)))}
+                  </div>}
                 
               </div>}
           {modalFocus === "withdrawWallet" && (

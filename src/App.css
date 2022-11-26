@@ -45,6 +45,9 @@ a {
   font-size:16px;
   font-weight:450;
 }
+.footer-margin {
+  padding-top:10px;
+}
 
 .winner-table {
   margin-bottom: 5%;
