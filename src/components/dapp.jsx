@@ -79,7 +79,7 @@ function Dapp() {
   }
 
   async function getPoolStats() {
-    console.log(ChainObject(chain), "getting pool stats");
+    // console.log(ChainObject(chain), "getting pool stats");
     let [
       prizePoolBalance,
       spethwinTotalSupply,
@@ -182,12 +182,92 @@ function Dapp() {
     setModalFocus("award");
     setIsModalOpen(true);
   }
+
   async function openModal() {
     setIsModalOpen(true);
   }
+
   async function closeModal() {
     setIsModalOpen(false);
+    setWalletMessage("")
+    setWithdrawButton("WITHDRAW")
   }
+ 
+  async function getStats() {
+  
+    let data = await GetSubgraphData("ETHEREUM")
+    
+    console.log(data)
+    setPrizeGross(data.data.prizePools[0].cumulativePrizeGross)
+    setGraphInfo(data)
+    setModalFocus("stats")
+    setIsModalOpen(true);
+  
+  }
+  async function getPlayers() {
+    // console.log("getting sponsors");
+    let data = await GetSubgraphData("ETHEREUM");
+    setGraphInfo(data);
+    let sponsorMap = data.data.controlledTokenBalances
+    console.log(sponsorMap)
+    setSponsorMap(sponsorMap);
+    setModalFocus("players");
+    setIsModalOpen(true);
+  }
+  function changeWinnerDraw(change) {
+    setWinnerDrawDisplay(winnerDrawDisplay + change)
+  }
+    async function getWinners() {
+      console.log("getting winners");
+      let data = await GetSubgraphData("ETHEREUM");
+      setGraphInfo(data);
+      console.log("got graph info", data);
+      let drawId = data.data.prizePools[0].currentPrizeId
+      let winnerMap = data.data.prizePools[0].prizes.reverse()
+      let draws = winnerMap.length
+      let winHistory = []
+      winnerMap.forEach(mappedDraw => {winHistory.push({timestamp:mappedDraw.awardedTimestamp,drawId:draws,winnerMap: mappedDraw.awardedControlledTokens});draws -= 1})
+      console.log(winHistory)
+      setPrizeMap(winHistory);
+      setWinnerDrawDisplay(0);
+      setModalFocus("winners");
+      setIsModalOpen(true);
+    }
+  
+    async function getSponsors() {
+      // console.log("getting sponsors");
+      let data = await GetSubgraphData("ETHEREUM");
+      setGraphInfo(data);
+      console.log("got graph info", data);
+      let sponsorMap = data.data.controlledTokenBalances
+      console.log(sponsorMap)
+      setSponsorMap(sponsorMap);
+      setModalFocus("sponsors");
+      setIsModalOpen(true);
+    }
+  
+    // TODO needs work
+    async function calculateExitFee(exitFeeAddress, exitFeeDeposit) {
+      console.log(
+        "exit feee calc fetch",
+        exitFeeAddress,
+        ADDRESS[ChainObject(chain)].ETHWIN,
+        exitFeeDeposit
+      );
+      let exitFee = await CONTRACT[
+        ChainObject(chain)
+      ].PRIZEPOOL.callStatic.calculateEarlyExitFee(
+        exitFeeAddress,
+        ADDRESS[ChainObject(chain)].ETHWIN,
+        exitFeeDeposit
+      );
+      // console.log("exitfee", exitFee[1].toString()) // index 0 is burned credit - 1 is exit fee
+      // exitFee = parseInt(exitFee[1]) * 1.05
+      // return exitFee.toString();
+      // console.log("fee", exitFee.exitFee.toString());
+      return exitFee.exitFee.toString();
+    }
+  
   // console.log("rendered")
   // console.log(graphInfo?.data?.controlledTokenBalances)
   // console.log(prizeDistributor)
@@ -240,18 +320,6 @@ function Dapp() {
     }
   };
 
-async function getStats() {
-  
-  let data = await GetSubgraphData("ETHEREUM")
-  
-  console.log(data)
-  setPrizeGross(data.data.prizePools[0].cumulativePrizeGross)
-  setGraphInfo(data)
-  setModalFocus("stats")
-  setIsModalOpen(true);
-
-}
-
 async function calculateExitFee(exitFeeAddress, exitFeeDeposit) {
   // console.log(
   //   "exit feee calc fetch",
@@ -272,72 +340,6 @@ async function calculateExitFee(exitFeeAddress, exitFeeDeposit) {
   console.log("fee", exitFee.exitFee.toString());
   return exitFee.exitFee.toString();
 }
-
-async function getPlayers() {
-  // console.log("getting sponsors");
-  let data = await GetSubgraphData("ETHEREUM");
-  setGraphInfo(data);
-  let sponsorMap = data.data.controlledTokenBalances
-  console.log(sponsorMap)
-  setSponsorMap(sponsorMap);
-  setModalFocus("players");
-  setIsModalOpen(true);
-}
-function changeWinnerDraw(change) {
-  setWinnerDrawDisplay(winnerDrawDisplay + change)
-}
-  async function getWinners() {
-    console.log("getting winners");
-    let data = await GetSubgraphData("ETHEREUM");
-    setGraphInfo(data);
-    console.log("got graph info", data);
-    let drawId = data.data.prizePools[0].currentPrizeId
-    let winnerMap = data.data.prizePools[0].prizes.reverse()
-    let draws = winnerMap.length
-    let winHistory = []
-    winnerMap.forEach(mappedDraw => {winHistory.push({timestamp:mappedDraw.awardedTimestamp,drawId:draws,winnerMap: mappedDraw.awardedControlledTokens});draws -= 1})
-    console.log(winHistory)
-    setPrizeMap(winHistory);
-    setWinnerDrawDisplay(0);
-    setModalFocus("winners");
-    setIsModalOpen(true);
-  }
-
-  async function getSponsors() {
-    // console.log("getting sponsors");
-    let data = await GetSubgraphData("ETHEREUM");
-    setGraphInfo(data);
-    console.log("got graph info", data);
-    let sponsorMap = data.data.controlledTokenBalances
-    console.log(sponsorMap)
-    setSponsorMap(sponsorMap);
-    setModalFocus("sponsors");
-    setIsModalOpen(true);
-  }
-
-
-
-  // TODO needs work
-  async function calculateExitFee(exitFeeAddress, exitFeeDeposit) {
-    console.log(
-      "exit feee calc fetch",
-      exitFeeAddress,
-      ADDRESS[ChainObject(chain)].ETHWIN,
-      exitFeeDeposit
-    );
-    let exitFee = await CONTRACT[
-      ChainObject(chain)
-    ].PRIZEPOOL.callStatic.calculateEarlyExitFee(
-      exitFeeAddress,
-      ADDRESS[ChainObject(chain)].ETHWIN,
-      exitFeeDeposit
-    );
-    // console.log("exitfee", exitFee[1].toString()) // index 0 is burned credit - 1 is exit fee
-    // exitFee = parseInt(exitFee[1]) * 1.05
-    // return exitFee.toString();
-    console.log("fee", exitFee.exitFee.toString());
-    return exitFee.exitFee.toString();
-  }
 
   // calculateExitFee(address, amountFormatForSend(inputAmount))
 
@@ -577,8 +579,8 @@ function changeWinnerDraw(change) {
   };
 
   const depositTo = async () => {
-    console.log("input amt ",inputAmount)
-    console.log("deposit amounts balance",balances[0].steth," ",balances[0].steth.toString()," ",ethers.utils.parseUnits(inputAmount,18))
+    // console.log("input amt ",inputAmount)
+    // console.log("deposit amounts balance",balances[0].steth," ",balances[0].steth.toString()," ",ethers.utils.parseUnits(inputAmount,18))
     try {
       if (balances[0].steth.lt(ethers.BigNumber.from(ethers.utils.parseUnits(inputAmount,18)))) {
         setWalletMessage("insufficient balance");
@@ -620,7 +622,7 @@ function changeWinnerDraw(change) {
     if(withdrawButton === "OK WITHDRAW WITH FEE") {okToWithdraw = true}
     try {
       let withdrawBalance = 0;
-      console.log("withdraw balance", balances[0].ethwin);
+      // console.log("withdraw balance", balances[0].ethwin);
       if (balances[0].ethwin === undefined) {
       } else {
         // console.log("withdraw set to ", withdrawBalance);
@@ -667,7 +669,7 @@ function changeWinnerDraw(change) {
   useEffect(() => {
     const getApprovals = async () => {
       if (modalFocus === "wallet" && address) {
-        console.log("fetching approvals");
+        // console.log("fetching approvals");
         let [stethApproval] = await Promise.all([
           CONTRACT[ChainObject(chain)].STETH.allowance(
             address,
@@ -699,7 +701,7 @@ function changeWinnerDraw(change) {
       if (isConnected) {
         setPopup(true);
         // const currentTimestamp = parseInt(Date.now() / 1000);
-        console.log("getting player ", address);
+        // console.log("getting player ", address);
         let poolerBalances = await getBalance(address);
 
         setBalances(poolerBalances);
