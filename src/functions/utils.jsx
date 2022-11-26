@@ -10,10 +10,12 @@ export const Separator = (numb) => {
 
 // possible prize still to accrue before award based on tvl, yield, and time remaining
 export const EstimatePrize = (tvl, secondsRemaining, apy) => {
-  secondsRemaining = 86400 * 5 + 1000;
-  let daysRemaining = parseInt(secondsRemaining / 86400);
+  console.log(secondsRemaining,"sec remain")
+  // secondsRemaining = 86400 * 5 + 1000;
+
+  let daysRemaining = parseInt((secondsRemaining+1) / 86400);
   let estimate = tvl * ((apy/100) * (daysRemaining / 365));
-  // console.log("estimated prize ", estimate);
+  console.log("estimated prize ", estimate);
   return estimate;
 }
 
