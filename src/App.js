@@ -72,18 +72,18 @@ function App() {
         <Dapp />
         <div className="boticon">
           <span title="Github">
-            <a href="https://github.com/underethsea/ethwin-app" target="_blank">
-              <img src="./images/github.png" className="github" />
+            <a href="https://github.com/underethsea/ethwin-app" target="_blank" rel="noreferrer">
+              <img src="./images/github.png" className="github" alt="github"/>
             </a>
           </span>
           <span title="Discord">
-            <a href="https://pooltogether.com/discord" target="_blank">
-              <img src="./images/discord.png" className="discord" />
+            <a href="https://pooltogether.com/discord" target="_blank" rel="noreferrer">
+              <img src="./images/discord.png" className="discord" alt="discord"/>
             </a>
           </span>
           <span title="Docs" >
-            <a href="https://docs.steth.win" target="_blank">
-              <img src="./images/docs.png" className="docs" />
+            <a href="https://docs.steth.win" target="_blank" rel="noreferrer">
+              <img src="./images/docs.png" className="docs" alt="docs"/>
             </a>
           </span>
         </div>

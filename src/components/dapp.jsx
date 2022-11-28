@@ -1,31 +1,30 @@
 import React, { useState, useEffect, useCallback } from "react";
-import Select from "react-select";
 
 import Modal from "react-modal";
 import "../modal.css";
 import { Timer } from "./timer";
-import CountUp from "react-countup";
+// import CountUp from "react-countup";
 
 import { GetSubgraphData } from "../functions/graphData";
 import { ethers } from "ethers";
 import {
   chain,
   useAccount,
-  useConnect,
-  useContract,
+  // useConnect,
+  // useContract,
   // useContractRead,
   usePrepareContractWrite,
   useContractWrite,
   useNetwork,
   useWaitForTransaction,
-  useSigner,
+  // useSigner,
 } from "wagmi";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import {
-  Separator, EstimatePrize, ChainObject,
-  TimeAgo, NumberChop, DecimalsForCount
+  EstimatePrize, ChainObject,
+  TimeAgo, NumberChop
 } from "../functions/utils"
 
 import { CONTRACT } from "../constants/contractConnect.jsx";
@@ -118,10 +117,10 @@ function Dapp() {
   }
 
   const {
-    connector: activeConnector,
+    // connector: activeConnector,
     address,
-    isConnecting,
-    isDisconnected,
+    // isConnecting,
+    // isDisconnected,
     isConnected,
   } = useAccount({
     onConnect({ address, connector, isReconnected }) {
@@ -129,9 +128,10 @@ function Dapp() {
     },
   });
 
-  const { connect, connectors, error, isLoading, pendingConnector } =
-    useConnect();
-  const signer = useSigner();
+  // const { connect, connectors, error, isLoading, pendingConnector } =
+  //   useConnect();
+
+  // const signer = useSigner();
 
   const [balances, setBalances] = useState([
     { steth: BNZERO, ethwin: BNZERO, spethwin: BNZERO },
@@ -140,22 +140,22 @@ function Dapp() {
   const [prizeMap, setPrizeMap] = useState([]);
   const [sponsorMap, setSponsorMap] = useState([]);
   const [winnerDrawDisplay, setWinnerDrawDisplay]  = useState(0)
-  const [addressValue, setAddressValue] = useState("");
+  // const [addressValue, setAddressValue] = useState("");
   const [popup, setPopup] = useState(Boolean);
-  const [graphInfo, setGraphInfo] = useState([]);
+  // const [graphInfo, setGraphInfo] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalFocus, setModalFocus] = useState("claim");
   const [allowances, setAllowances] = useState({});
   const [prizeGross,setPrizeGross] = useState(0)
   const [withdrawButton,setWithdrawButton] = useState("WITHDRAW")
   const [inputAmount, setInputAmount] = useState("");
-  const [validAddress, setValidAddress] = useState(true);
-  const [prizePoolAddress, setPrizePoolAddress] = useState(
-    "0x79Bc8bD53244bC8a9C8c27509a2d573650A83373"
-  );
-  const [stethAddress, setStethAddress] = useState(
-    "0x79Bc8bD53244bC8a9C8c27509a2d573650A83373"
-  );
+  // const [validAddress, setValidAddress] = useState(true);
+  // const [prizePoolAddress, setPrizePoolAddress] = useState(
+  //   "0x79Bc8bD53244bC8a9C8c27509a2d573650A83373"
+  // // );
+  // const [stethAddress, setStethAddress] = useState(
+  //   "0x79Bc8bD53244bC8a9C8c27509a2d573650A83373"
+  // );
   const [updateWallet, setUpdateWallet] = useState(0);
   const [walletMessage, setWalletMessage] = useState(""); // lousy bug-fix for setPoolerToWallet not getting poolerAddress useEffect to trigger
   const amountInput = useCallback((inputElement) => {
@@ -165,7 +165,7 @@ function Dapp() {
   }, []);
   // const {refresh, setRefresh} = useState(0)
 
-  const { chain, chains } = useNetwork();
+  const { chain } = useNetwork();
 
   async function openWallet() {
     setModalFocus("wallet");
@@ -178,10 +178,10 @@ function Dapp() {
     setInputAmount("");
   }
 
-  async function openAward() {
-    setModalFocus("award");
-    setIsModalOpen(true);
-  }
+  // async function openAward() {
+  //   setModalFocus("award");
+  //   setIsModalOpen(true);
+  // }
 
   async function openModal() {
     setIsModalOpen(true);
@@ -199,7 +199,7 @@ function Dapp() {
     
     console.log(data)
     setPrizeGross(data.data.prizePools[0].cumulativePrizeGross)
-    setGraphInfo(data)
+    // setGraphInfo(data)
     setModalFocus("stats")
     setIsModalOpen(true);
   
@@ -207,22 +207,19 @@ function Dapp() {
   async function getPlayers() {
     // console.log("getting sponsors");
     let data = await GetSubgraphData("ETHEREUM");
-    setGraphInfo(data);
+    // setGraphInfo(data);
     let sponsorMap = data.data.controlledTokenBalances
     console.log(sponsorMap)
     setSponsorMap(sponsorMap);
     setModalFocus("players");
     setIsModalOpen(true);
   }
-  function changeWinnerDraw(change) {
-    setWinnerDrawDisplay(winnerDrawDisplay + change)
-  }
     async function getWinners() {
       console.log("getting winners");
       let data = await GetSubgraphData("ETHEREUM");
-      setGraphInfo(data);
+      // setGraphInfo(data);
       console.log("got graph info", data);
-      let drawId = data.data.prizePools[0].currentPrizeId
+      // let drawId = data.data.prizePools[0].currentPrizeId
       let winnerMap = data.data.prizePools[0].prizes.reverse()
       let draws = winnerMap.length
       // remove first two test draws
@@ -238,19 +235,22 @@ function Dapp() {
       setIsModalOpen(true);
     }
   
-    async function getSponsors() {
-      // console.log("getting sponsors");
-      let data = await GetSubgraphData("ETHEREUM");
-      setGraphInfo(data);
-      console.log("got graph info", data);
-      let sponsorMap = data.data.controlledTokenBalances
-      console.log(sponsorMap)
-      setSponsorMap(sponsorMap);
-      setModalFocus("sponsors");
-      setIsModalOpen(true);
-    }
+    // async function getSponsors() {
+    //   // console.log("getting sponsors");
+    //   let data = await GetSubgraphData("ETHEREUM");
+    //   // setGraphInfo(data);
+    //   console.log("got graph info", data);
+    //   let sponsorMap = data.data.controlledTokenBalances
+    //   console.log(sponsorMap)
+    //   setSponsorMap(sponsorMap);
+    //   setModalFocus("sponsors");
+    //   setIsModalOpen(true);
+    // }
   
-    // TODO needs work
+
+  function changeWinnerDraw(change) {
+    setWinnerDrawDisplay(winnerDrawDisplay + change)
+  }
     async function calculateExitFee(exitFeeAddress, exitFeeDeposit) {
       console.log(
         "exit feee calc fetch",
@@ -272,6 +272,9 @@ function Dapp() {
       return exitFee.exitFee.toString();
     }
   
+
+  // render log party
+
   // console.log("rendered")
   // console.log(graphInfo?.data?.controlledTokenBalances)
   // console.log(prizeDistributor)
@@ -283,10 +286,10 @@ function Dapp() {
   // console.log(allowances);
   // console.log(chain)
 
-  const isInvalidInputAmt = (amt) => {
-    const inputAmt = Number(amt);
-    return Number.isNaN(inputAmt) || inputAmt <= 0;
-  };
+  // const isInvalidInputAmt = (amt) => {
+  //   const inputAmt = Number(amt);
+  //   return Number.isNaN(inputAmt) || inputAmt <= 0;
+  // };
 
 
   // function isValidAddress(addressToVerify) {
@@ -308,7 +311,7 @@ function Dapp() {
   // }
 
   const amountFormatForSend = (amt) => {
-    if (Number(amt) != amt) {
+    if (isNaN(amt)) {
       return "0";
     } else {
       if (parseFloat(amt) > 0) {
@@ -324,32 +327,11 @@ function Dapp() {
     }
   };
 
-async function calculateExitFee(exitFeeAddress, exitFeeDeposit) {
-  // console.log(
-  //   "exit feee calc fetch",
-  //   exitFeeAddress,
-  //   ADDRESS[ChainObject(chain)].TICKET,
-  //   exitFeeDeposit
-  // );
-  let exitFee = await CONTRACT[
-    ChainObject(chain)
-  ].PRIZEPOOL.callStatic.calculateEarlyExitFee(
-    exitFeeAddress,
-    ADDRESS[ChainObject(chain)].ETHWIN,
-    exitFeeDeposit
-  );
-  // console.log("exitfee", exitFee[1].toString()) // index 0 is burned credit - 1 is exit fee
-  // exitFee = parseInt(exitFee[1]) * 1.05
-  // return exitFee.toString();
-  console.log("fee", exitFee.exitFee.toString());
-  return exitFee.exitFee.toString();
-}
-
   // calculateExitFee(address, amountFormatForSend(inputAmount))
 
   // ------ WITHDRAW TRANSACTION CONFIG -------- //  
 
-  const { config: withdrawConfig, error: withdrawConfigError } =
+  const { config: withdrawConfig} =
     usePrepareContractWrite({
       args: [
         address,
@@ -368,8 +350,6 @@ async function calculateExitFee(exitFeeAddress, exitFeeDeposit) {
   // ------ DEPOSIT TRANSACTION CONFIG -------- //  
   const {
     config: depositConfig,
-    error: depositConfigError,
-    isError: isDepositConfigError,
   } = usePrepareContractWrite({
     args: [
       address,
@@ -388,8 +368,6 @@ async function calculateExitFee(exitFeeAddress, exitFeeDeposit) {
   // ------ APPROVE TRANSACTION CONFIG -------- //
   const {
     config: stethConfig,
-    error: stethConfigError,
-    isError: stethConfigIsError,
   } = usePrepareContractWrite({
     args: [
       ADDRESS[ChainObject(chain)].PRIZEPOOL,
@@ -435,7 +413,9 @@ async function calculateExitFee(exitFeeAddress, exitFeeDeposit) {
     isLoading: withdrawLoading,
   } = useContractWrite(withdrawConfig);
 
-  const { isFetching: approveFetching, isLoading: approveWaitLoading, isSuccess: approveWaitSuccess } =
+  const { isFetching: approveFetching, 
+    isLoading: approveWaitLoading, 
+    isSuccess: approveWaitSuccess } =
     useWaitForTransaction({
       hash: approveData?.hash,
       onSuccess(data) {
@@ -493,8 +473,8 @@ async function calculateExitFee(exitFeeAddress, exitFeeDeposit) {
         return (
           <div>
             <span className="get-token">WANNA WIN? GET stETH <a href="https://app.uniswap.org">
-              <span title="Uniswap"><img src="images/uniswap.webp" className="token-icon"/></span></a>
-              <span title="Lido"><a href="https://stake.lido.fi/"><img src="images/lido.png" className="lido-icon"></img></a></span>
+              <span title="Uniswap"><img src="images/uniswap.webp" className="token-icon" alt="uniswap"/></span></a>
+              <span title="Lido"><a href="https://stake.lido.fi/"><img src="images/lido.png" className="lido-icon" alt="lido"></img></a></span>
               </span>
           </div>
         );
@@ -571,6 +551,8 @@ async function calculateExitFee(exitFeeAddress, exitFeeDeposit) {
   // }
 
   const approve = () => {
+    if(chain.id === 1 || chain.id === 5) {
+
     try {
       approveWrite();
       toast("Approving!", {
@@ -579,10 +561,15 @@ async function calculateExitFee(exitFeeAddress, exitFeeDeposit) {
     } catch (error) {
       setWalletMessage("error, see console");
       console.log(error);
-    }
+    }}
+    else{
+      setWalletMessage("wrong chain")
+      }
   };
 
   const depositTo = async () => {
+    if(chain.id === 1 || chain.id === 5) {
+
     // console.log("input amt ",inputAmount)
     // console.log("deposit amounts balance",balances[0].steth," ",balances[0].steth.toString()," ",ethers.utils.parseUnits(inputAmount,18))
     try {
@@ -602,9 +589,9 @@ async function calculateExitFee(exitFeeAddress, exitFeeDeposit) {
           setUpdateWallet(updateWallet + 1);
           try {
             depositWrite();
-            toast("Depositing!", {
-              position: toast.POSITION.BOTTOM_RIGHT,
-            });
+            // toast("Depositing!", {
+            //   position: toast.POSITION.BOTTOM_RIGHT,
+            // });
           } catch (error) {
             console.log(error);
           }
@@ -619,18 +606,22 @@ async function calculateExitFee(exitFeeAddress, exitFeeDeposit) {
       setWalletMessage("error, see console");
       console.log(error);
     }
+  }
+  else{
+    setWalletMessage("wrong chain")}
   };
 
   const withdrawFrom = async () => {
+    if(chain.id === 1 || chain.id === 5) {
+      
     let okToWithdraw = false
     if(withdrawButton === "OK WITHDRAW WITH FEE") {okToWithdraw = true}
     try {
-      let withdrawBalance = 0;
-      // console.log("withdraw balance", balances[0].ethwin);
-      if (balances[0].ethwin === undefined) {
-      } else {
-        // console.log("withdraw set to ", withdrawBalance);
-      }
+      console.log("withdraw balance", balances[0].ethwin);
+      console.log("input amt",inputAmount)
+      // if (balances[0].ethwin === undefined) {
+      // } else {
+      // }
       if (balances[0].ethwin.lt(ethers.BigNumber.from(ethers.utils.parseUnits(inputAmount,18)))) {
         setWalletMessage("insufficient balance");
       } else if (
@@ -655,6 +646,9 @@ async function calculateExitFee(exitFeeAddress, exitFeeDeposit) {
     } catch (error) {
       setWalletMessage("error, see console");
       console.log(error);
+    }
+  }else{
+    setWalletMessage("wrong chain")
     }
   };
 
@@ -744,9 +738,11 @@ async function calculateExitFee(exitFeeAddress, exitFeeDeposit) {
                           <div className="top-title-text">WEEKLY WINNING</div>
                         <center>
                           <div className="top-info">
-                            <div><img src="/images/ethbrand.png" className="eth-title"></img></div>
+                            <div><img src="/images/ethbrand.png" className="eth-title" alt="ethpower"></img></div>
                             <div><div>
                              &nbsp;
+                             {/* projected prize is tvl - tickets + estimatedprize
+                              estimated prize is day yield * time left on draw */}
                             {!isNaN(poolInfo.prizepool) ?
                               NumberChop(
                                 poolInfo.prizepool -
@@ -762,7 +758,7 @@ async function calculateExitFee(exitFeeAddress, exitFeeDeposit) {
                               </div>
                             </div></center>
                           
-
+                            {/* COUNTUP ANIMATE PRIZE VALUE */}
                             {/* Prize value */}
                             {/* <img
                               src="/images/trophy.png"
@@ -819,24 +815,6 @@ async function calculateExitFee(exitFeeAddress, exitFeeDeposit) {
                       </td>
                     </tr>
 
-                    {/* Current Draw: {graphInfo?.data?.prizePools[0].currentPrizeId}<br></br> */}
-                    {/* Prize Period Ends: {graphInfo?.data?.multipleWinnersPrizeStrategies[0].prizePeriodEndAt}   */}
-                    {/* 
-                    <tr>
-                      <td className="tdcenter">
-                        <img src="./images/yolo_nolo.png" className="cool-pooly" alt="POOLY" />
-                        </td>
-                    </tr> */}
-                    {/* https://i.ibb.co/0Jgj6DL/pooly44.png */}
-                    {/* {addressValue === "" ? <tr>
-                    <td className="tdcenter"><img src="./ images/yolo_nolo.png" className="cool-pooly" /></td></tr> : ""} */}
-
-                    {/* {prizesWon === 0 && !popup && addressValue !== "" && <tr><td className="tdcenter">
-                     No wins yet, friend.<br/> 
-                    <img src="./images/yolo_nolo.png" className="cool-pooly" /></td></tr>} */}
-                  
-                  {/* <table className="padded bottom-table"><thead><tr><td><center>
-                    <br></br></center> </td></tr></thead></table>*/}
                 </table>
 <br></br>
 {!isModalOpen && <>
@@ -896,18 +874,7 @@ async function calculateExitFee(exitFeeAddress, exitFeeDeposit) {
                     </td>
                   </tr>
                 </table>
-                {/* 
-                        {parseInt(graphInfo?.data?.prizePools[0].currentPrizeId) > 0 && <span><br></br>
-                       
-                          Sponsors:<br></br>
-                          {graphInfo?.data.controlledTokenBalances.map((sponsor) => (
-                            <tr>
-                              <td>{sponsor.account.id}</td>
-                              <td>{ethValue(sponsor.balance)}</td>
-                            </tr>
-                          ))}
-                          
-                        </span>} */}
+                
                 <br></br>
                 
                 {isConnected && (
@@ -940,7 +907,7 @@ async function calculateExitFee(exitFeeAddress, exitFeeDeposit) {
                                       {" "}
                                       <img
                                         src="/images/steth.png"
-                                        className="token"
+                                        className="token" alt="steth"
                                       ></img>
                                       &nbsp;
                                       <span className="token-text">{NumberChop(ethers.utils.formatUnits(balances[0].steth,18))}</span>
@@ -957,7 +924,7 @@ async function calculateExitFee(exitFeeAddress, exitFeeDeposit) {
                                     <td style={{ textAlign: "right" }}>
                                       <img
                                         src="/images/trophy.png"
-                                        className="trophy-token"
+                                        className="trophy-token" alt="trophy"
                                       ></img>
                                       &nbsp;
                                       <span className="token-text">{NumberChop(ethers.utils.formatUnits(balances[0].ethwin,18))}</span>
@@ -971,7 +938,7 @@ async function calculateExitFee(exitFeeAddress, exitFeeDeposit) {
                                   <td style={{ textAlign: "right" }}>
                                   <img
                                         src="/images/trophy.png"
-                                        className="trophy-token"
+                                        className="trophy-token" alt="trophy"
                                       ></img>
                                       &nbsp;
                                       <span className="token-text">{NumberChop(ethers.utils.formatUnits(balances[0].spethwin,18))}</span>
@@ -1165,11 +1132,11 @@ async function calculateExitFee(exitFeeAddress, exitFeeDeposit) {
                 
                 <td><span className="winner-address">
                   {player.account.id.substring(0,8)}</span>
-                  {player.account.id.toLowerCase() === address?.toLowerCase() && <span>&nbsp;<img src="/images/poolerson.png" className="myaddress" /> </span>}
+                  {player.account.id.toLowerCase() === address?.toLowerCase() && <span>&nbsp;<img src="/images/poolerson.png" className="myaddress" alt="U"/> </span>}
 
                   </td>
                 <td style={{ textAlign: "right" }}>&nbsp;&nbsp;&nbsp;&nbsp;
-                <img src="images/steth.png" className="token"></img>
+                <img src="images/steth.png" className="token" alt="steth"></img>
 
                 <span className="winner-amount">{NumberChop(player.balance/1e18)}</span></td></tr>)
               })}
@@ -1186,22 +1153,23 @@ async function calculateExitFee(exitFeeAddress, exitFeeDeposit) {
               <br/>
               <table className="winner-table">
               {prizeMap[winnerDrawDisplay].winnerMap.map(winner=>{ return(
-                <tr><td>{winner.winner.startsWith("0x7cf2eb") ? <img title="Charity address" src="images/charityIcon.png" className="winner-icon"/> :
-                <img src="images/trophy.png" className="winner-icon"></img>}</td>
+                <tr><td>{winner.winner.startsWith("0x7cf2eb") ? <img title="Charity address" src="images/charityIcon.png" alt="" className="winner-icon"/> :
+                <img src="images/trophy.png" className="winner-icon" alt=""></img>}</td>
                 
-                <td><a target="_blank" href={"https://etherscan.io/address/" + winner.winner} className="winner-address">{winner.winner.substring(0,8)}</a>
-                {winner.winner.toLowerCase() === address?.toLowerCase() && <span>&nbsp;<img src="/images/poolerson.png" className="myaddress" /> </span>}
+                <td><a target="_blank" rel="noreferrer" href={"https://etherscan.io/address/" + winner.winner} className="winner-address">{winner.winner.substring(0,8)}</a>
+                {winner.winner.toLowerCase() === address?.toLowerCase() && <span>&nbsp;<img src="/images/poolerson.png" className="myaddress" alt="U"/> </span>}
 
                 </td>
-                <td style={{ textAlign: "right" }}>&nbsp;&nbsp;&nbsp;&nbsp;<span className="winner-amount"><img src="images/steth.png" className="token-icon-winners"/>{NumberChop(winner.amount/1e18)}</span></td></tr>)
+                <td style={{ textAlign: "right" }}>&nbsp;&nbsp;&nbsp;&nbsp;<span className="winner-amount">
+                  <img src="images/steth.png" alt="" className="token-icon-winners"/>{NumberChop(winner.amount/1e18)}</span></td></tr>)
               })}
               </table>
               <span className="footer-modal">
-              { winnerDrawDisplay > 0 ? <img src="images/arrow-left.svg" className="pointer"  onClick={() => changeWinnerDraw(-1)}/> : <span>&emsp;</span>}
+              { winnerDrawDisplay > 0 ? <img src="images/arrow-left.svg" className="pointer" alt="prev" onClick={() => changeWinnerDraw(-1)}/> : <span>&emsp;</span>}
               &nbsp;&nbsp;&nbsp;&nbsp;
               Awarded {TimeAgo(prizeMap[winnerDrawDisplay].timestamp)}</span>
               &nbsp;&nbsp;&nbsp;&nbsp;
-              { winnerDrawDisplay < (prizeMap.length - 1) ? <img src="images/arrow-right.svg" className="pointer" onClick={() => changeWinnerDraw(1)}/> : <span>&emsp;</span>}
+              { winnerDrawDisplay < (prizeMap.length - 1) ? <img src="images/arrow-right.svg" className="pointer" alt="next" onClick={() => changeWinnerDraw(1)}/> : <span>&emsp;</span>}
               
               </div>}
              {/* {modalFocus === "sponsors" && <div><div
@@ -1232,7 +1200,7 @@ async function calculateExitFee(exitFeeAddress, exitFeeDeposit) {
               <table className="winner-table">
                   <tr><td><span className="winner-amount">TVL</span></td>
                   <td style={{ textAlign: "right" }}>
-                  <img src="images/steth.png" className="token"></img>
+                  <img src="images/steth.png" className="token" alt=""></img>
                   <span className="winner-amount">{NumberChop(poolInfo?.prizepool)}</span></td>
                   </tr>
                   {/* <tr><td>Prize APR</td>
@@ -1242,7 +1210,7 @@ async function calculateExitFee(exitFeeAddress, exitFeeDeposit) {
 
                   <tr><td><span className="winner-amount">Cumulative Prize&nbsp;&nbsp;&nbsp;</span></td>
                   <td style={{ textAlign: "right" }}>
-                  <img src="images/steth.png" className="token"></img>
+                  <img src="images/steth.png" className="token" alt="steth"></img>
                   <span className="winner-amount">
                     {NumberChop(prizeGross/1e18)}</span></td></tr>
                     {poolInfo?.isStethApyFetch  && <tr>
@@ -1264,7 +1232,7 @@ async function calculateExitFee(exitFeeAddress, exitFeeDeposit) {
                   {" "}
                   WITHDRAW on
                   <img
-                    src={"./images/" + "ethereum" + ".png"}
+                    src={"./images/ethereum.png"}
                     className="emoji"
                     alt={chain.name}
                   />{" "}
