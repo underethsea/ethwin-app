@@ -44,6 +44,7 @@ const ethValue = (amount) => {
   return ethers.utils.formatUnits(amount, 18);
 };
 
+const delay = ms => new Promise(res => setTimeout(res, ms));
 
 function Dapp() {
  
@@ -195,14 +196,12 @@ function Dapp() {
   }
  
   async function getStats() {
-  
-    let data = await GetSubgraphData("ETHEREUM")
-    
-    console.log(data)
-    setPrizeGross(data.data.prizePools[0].cumulativePrizeGross)
-    // setGraphInfo(data)
     setModalFocus("stats")
     setIsModalOpen(true);
+    let data = await GetSubgraphData("ETHEREUM")
+    // console.log(data)
+    setPrizeGross(data.data.prizePools[0].cumulativePrizeGross)
+    // setGraphInfo(data)
   
   }
   async function getPlayers() {
@@ -1223,12 +1222,12 @@ function Dapp() {
                   <td style={{ textAlign: "right" }}>{(100*(52.14*((poolInfo.prizepool -
                                       poolInfo.ethwinTotalSupply -
                                       poolInfo.spethwinTotalSupply)) / poolInfo.ethwinTotalSupply)).toFixed(2)}%</td></tr> */}
-
+                  {prizeGross > 0 &&
                   <tr><td><span className="winner-amount">Cumulative Prize&nbsp;&nbsp;&nbsp;</span></td>
                   <td style={{ textAlign: "right" }}>
                   <img src="images/steth.png" className="token" alt="steth"></img>
                   <span className="winner-amount">
-                    {NumberChop(prizeGross/1e18)}</span></td></tr>
+                    {NumberChop(prizeGross/1e18)}</span></td></tr>}
                     {poolInfo?.isStethApyFetch  && <tr>
                     <td><span className="winner-amount">stETH 30d APY</span></td><td style={{ textAlign: "right" }}><span className="winner-amount">{poolInfo.stethMonthApy}%</span></td></tr>}
                 </table>
