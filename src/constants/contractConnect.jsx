@@ -32,6 +32,11 @@ export const CONTRACT = {
       ABI.ERC20,
       PROVIDERS.ETHEREUM
     ),
+    ENS: new ethers.Contract(
+      ADDRESS.ETHEREUM.ENS,
+      ABI.ENS,
+      PROVIDERS.ETHEREUM
+    )
   },
   GOERLI: {
     PRIZEPOOL: new ethers.Contract(

@@ -27,6 +27,7 @@ import {
   TimeAgo, NumberChop
 } from "../functions/utils"
 
+import { PROVIDERS } from "../constants/providers.jsx"
 import { CONTRACT } from "../constants/contractConnect.jsx";
 import { ADDRESS } from "../constants/address.jsx";
 import { ABI } from "../constants/abi.jsx";
@@ -138,7 +139,7 @@ function Dapp() {
   ]);
   const [poolInfo, setPoolInfo] = useState({});
   const [prizeMap, setPrizeMap] = useState([]);
-  const [sponsorMap, setSponsorMap] = useState([]);
+  const [playerMap, setPlayerMap] = useState([]);
   const [winnerDrawDisplay, setWinnerDrawDisplay]  = useState(0)
   // const [addressValue, setAddressValue] = useState("");
   const [popup, setPopup] = useState(Boolean);
@@ -208,9 +209,23 @@ function Dapp() {
     // console.log("getting sponsors");
     let data = await GetSubgraphData("ETHEREUM");
     // setGraphInfo(data);
-    let sponsorMap = data.data.controlledTokenBalances
-    console.log(sponsorMap)
-    setSponsorMap(sponsorMap);
+    let playerMapData = data.data.controlledTokenBalances
+    let playerIndex = 0
+    let playersArray = []
+   
+    for (const player of playerMapData) {
+      // let ens = await PROVIDERS[ChainObject(chain)].lookupAddress(player.account.id)
+      // if(ens !== null) {console.log(ens);playerMapData[playerIndex].account.id = ens}
+      playersArray.push(player.account.id)
+      playerIndex += 1
+    }
+    let ensResults = await CONTRACT[ChainObject(chain)].ENS.getNames(playersArray)
+    playerIndex = 0
+    for(const player of playerMapData) {
+    if(ensResults[playerIndex] !== '') {playerMapData[playerIndex].account.id = ensResults[playerIndex]}
+    playerIndex +=1
+    }
+    setPlayerMap(playerMapData);
     setModalFocus("players");
     setIsModalOpen(true);
   }
@@ -1125,14 +1140,15 @@ function Dapp() {
               
               <span className="title-modal">PLAYERS</span><br></br><br></br><table className="winner-table">
               
-              {sponsorMap.map(player=>{ return(
+              {playerMap.map(player=>{ return(
                 <tr>
                   {/* <td>{winner.winner.startsWith("0x7cf2eb") ? <span>GC</span> :
                 <img src="images/trophy.png" className="winner-icon"></img>}</td> */}
                 
                 <td><span className="winner-address">
-                  {player.account.id.substring(0,8)}</span>
-                  {player.account.id.toLowerCase() === address?.toLowerCase() && <span>&nbsp;<img src="/images/poolerson.png" className="myaddress" alt="U"/> </span>}
+                  {player.account.id.substring(0,14)}</span>
+                  {player.account.id.toLowerCase() === address?.toLowerCase() && <span>&nbsp;
+                    <img src="/images/poolerson.png" className="myaddress" alt="U"/> </span>}
 
                   </td>
                 <td style={{ textAlign: "right" }}>&nbsp;&nbsp;&nbsp;&nbsp;
