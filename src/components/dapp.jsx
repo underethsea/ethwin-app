@@ -138,8 +138,6 @@ function Dapp() {
     { steth: BNZERO, ethwin: BNZERO, spethwin: BNZERO },
   ]);
   const [poolInfo, setPoolInfo] = useState({});
-  // const [prizeMap, setPrizeMap] = useState([]);
-  // const [playerMap, setPlayerMap] = useState([]);
   const [winnerDrawDisplay, setWinnerDrawDisplay] = useState(0);
   // const [addressValue, setAddressValue] = useState("");
   const [popup, setPopup] = useState(Boolean);
@@ -147,16 +145,9 @@ function Dapp() {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalFocus, setModalFocus] = useState("claim");
   const [allowances, setAllowances] = useState({});
-  const [prizeGross, setPrizeGross] = useState(0);
   const [withdrawButton, setWithdrawButton] = useState("WITHDRAW");
   const [inputAmount, setInputAmount] = useState("");
-  // const [validAddress, setValidAddress] = useState(true);
-  // const [prizePoolAddress, setPrizePoolAddress] = useState(
-  //   "0x79Bc8bD53244bC8a9C8c27509a2d573650A83373"
-  // // );
-  // const [stethAddress, setStethAddress] = useState(
-  //   "0x79Bc8bD53244bC8a9C8c27509a2d573650A83373"
-  // );
+
   const [updateWallet, setUpdateWallet] = useState(0);
   const [walletMessage, setWalletMessage] = useState(""); // lousy bug-fix for setPoolerToWallet not getting poolerAddress useEffect to trigger
   const amountInput = useCallback((inputElement) => {
@@ -206,11 +197,10 @@ async function callGraphNoCache(network) {
   let graphReturn = await GetSubgraphData(network);
   let processedWinners = processWinners(graphReturn)
   let processedPlayers = await processPlayers(graphReturn)
-  setPrizeGross(graphReturn.data.prizePools[0].cumulativePrizeGross);
-
   let poolGraphInfo = {
     playerMap: processedPlayers,
-    prizeMap: processedWinners
+    prizeMap: processedWinners,
+    prizeGross: graphReturn.data.prizePools[0].cumulativePrizeGross
   }
   setGraphInfo(poolGraphInfo);
   setCacheTime(Date.now());
@@ -218,7 +208,7 @@ async function callGraphNoCache(network) {
 }
   async function callGraph(network) {
     if (Date.now() - cacheTime < cacheRefreshTime && graphInfo !== {}) {
-      console.log("using cache graph data", Date.now() - cacheTime);
+      // console.log("using cache graph data", Date.now() - cacheTime);
       return graphInfo;
     } else {
      await callGraphNoCache(network)
@@ -282,8 +272,6 @@ async function processPlayers(graph) {
     console.log("getting winners");
     let data = await callGraph("ETHEREUM");
 
-   
-    // setPrizeMap(winHistory);
     setWinnerDrawDisplay(0);
     setModalFocus("winners");
     setIsModalOpen(true);
@@ -1449,7 +1437,7 @@ async function processPlayers(graph) {
                   <td style={{ textAlign: "right" }}>{(100*(52.14*((poolInfo.prizepool -
                                       poolInfo.ethwinTotalSupply -
                                       poolInfo.spethwinTotalSupply)) / poolInfo.ethwinTotalSupply)).toFixed(2)}%</td></tr> */}
-                {prizeGross > 0 && (
+                {graphInfo?.prizeGross > 0 && (
                   <tr>
                     <td>
                       <span className="winner-amount">
@@ -1463,7 +1451,7 @@ async function processPlayers(graph) {
                         alt="steth"
                       ></img>
                       <span className="winner-amount">
-                        {NumberChop(prizeGross / 1e18)}
+                        {NumberChop(graphInfo.prizeGross / 1e18)}
                       </span>
                     </td>
                   </tr>
