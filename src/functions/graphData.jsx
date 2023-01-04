@@ -17,7 +17,7 @@ let query = `query($prizestrategy: String!, $ethwin: String!,$spethwin: String!,
       id,
       currentPrizeId,
       currentState,
-      prizes (first:50){
+      prizes (orderBy: awardedTimestamp, orderDirection: asc){
         awardedTimestamp,
         awardedControlledTokens(first:60){
           id,winner,amount,token {
