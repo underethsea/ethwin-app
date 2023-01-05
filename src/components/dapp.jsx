@@ -37,6 +37,7 @@ import { ABI } from "../constants/abi.jsx";
 // hardcoded for now | in utils
 const STETH_APY = 5; // fallback if not fetched
 const BNZERO = ethers.BigNumber.from("0");
+const BNZEROHEX = "0x00"
 const BNONEWEI = ethers.BigNumber.from("1");
 const NUMBER_OF_PRIZES = 2;
 const PRIZE_SPLIT_PCT = 0.5;
@@ -150,6 +151,8 @@ function Dapp() {
 
   const [updateWallet, setUpdateWallet] = useState(0);
   const [walletMessage, setWalletMessage] = useState(""); // lousy bug-fix for setPoolerToWallet not getting poolerAddress useEffect to trigger
+  const [giveAmount, setGiveAmount] = useState(0)
+  
   const amountInput = useCallback((inputElement) => {
     if (inputElement) {
       inputElement.focus();
@@ -202,9 +205,10 @@ async function callGraphNoCache(network) {
     prizeMap: processedWinners,
     prizeGross: graphReturn.data.prizePools[0].cumulativePrizeGross
   }
+  setGiveAmount(processedWinners.totalGive)
   setGraphInfo(poolGraphInfo);
   setCacheTime(Date.now());
-}catch(error){console.log("graph fetch error")}
+}catch(error){console.log("graph fetch error",error)}
 }
   async function callGraph(network) {
     if (Date.now() - cacheTime < cacheRefreshTime && graphInfo !== {}) {
@@ -219,9 +223,10 @@ async function callGraphNoCache(network) {
     let draws = winnerMap.length;
     // remove first two test draws
     draws = draws - 2;
-
     let winHistory = [];
+    
     winnerMap.forEach((mappedDraw) => {
+
       winHistory.push({
         timestamp: mappedDraw.awardedTimestamp,
         drawId: draws,
@@ -229,7 +234,13 @@ async function callGraphNoCache(network) {
       });
       draws -= 1;
     });
-    // console.log(winHistory)
+    console.log(winHistory)
+    winHistory.totalGive = 0
+    winHistory.forEach(drawNumber => {
+        let charity = drawNumber.winnerMap.filter(player=>player.winner === "0x7cf2ebb5ca55a8bd671a020f8bdbaf07f60f26c1")
+        winHistory.totalGive += parseInt(charity[0].amount) / 1e18
+    })
+    console.log("DONATED",winHistory.totalGive)
 
     // remove first two test draws
     winHistory.splice(winHistory.length - 2, winHistory.length - 1);
@@ -500,10 +511,12 @@ async function processPlayers(graph) {
 
   function GetStethNow() {
     if (balances[0] !== undefined) {
+      let conditionOne = isConnected &&
+      balances[0].steth === BNZERO &&
+      balances[0].ethwin === BNZERO
+      let conditionTwo = balances[0].steth.toString() == 0 && balances[0].ethwin.toString() == 0
       if (
-        isConnected &&
-        balances[0].steth === BNZERO &&
-        balances[0].ethwin === BNZERO
+       conditionOne || conditionTwo
       ) {
         return (
           <div>
@@ -526,6 +539,7 @@ async function processPlayers(graph) {
                     alt="lido"
                   ></img>
                 </a>
+                
               </span>
             </span>
           </div>
@@ -812,6 +826,7 @@ async function processPlayers(graph) {
                         <div className="padding-top">
                           {/* <img src="images/trophyeth.png" className="trophy"></img>&nbsp; */}
                           <span className="top-title">
+                           
                             <div className="top-title-text">WEEKLY WINNING</div>
                             <center>
                               <div className="top-info">
@@ -951,7 +966,13 @@ async function processPlayers(graph) {
                                     <br></br>
                                     <span className="text-four">
                                       Withdraw in full anytime after 7 days
-                                    </span>
+                                    </span><br></br>
+                                    {giveAmount > 0 && <><img
+                            title="Charity address"
+                            src="images/charityIcon.png"
+                            alt=""
+                            className="winner-icon"
+                          />&nbsp;<span className="give-text">{NumberChop(giveAmount)}</span> <span className="text-two">stETH donated</span></>}
                                   </center>
                                 </td>
                               </tr>
