@@ -198,8 +198,9 @@ function Dapp() {
 async function callGraphNoCache(network) {
   try{
   let graphReturn = await GetSubgraphData(network);
-  let processedWinners = processWinners(graphReturn)
   let processedPlayers = await processPlayers(graphReturn)
+
+  let processedWinners = processWinners(graphReturn)
   let poolGraphInfo = {
     playerMap: processedPlayers,
     prizeMap: processedWinners,
@@ -248,8 +249,12 @@ async function callGraphNoCache(network) {
 
   }
 async function processPlayers(graph) {
-
-   let playerMapData = graph.data.controlledTokenBalances;
+try{
+  console.log(graph.data)
+   let playerMapData = graph.data.prizePools[0].controlledTokens[0].balances.concat(graph.data.prizePools[0].controlledTokens[1].balances)
+  playerMapData = playerMapData.sort(((a, b) => a.balance - b.balance)).reverse()
+   console.log(playerMapData)
+   console.log(playerMapData)
    let playerIndex = 0;
    let playersArray = [];
 
@@ -269,8 +274,8 @@ async function processPlayers(graph) {
      }
      playerIndex += 1;
    }
-   return playerMapData
- 
+   return playerMapData}
+ catch(error){console.log(error)}
 }
   async function getPlayers() {
     let graphReturn = await callGraph("ETHEREUM")
@@ -1272,7 +1277,12 @@ async function processPlayers(graph) {
                 onClick={() => closeModal()}
               ></div>
 
-              <span className="title-modal">PLAYERS</span>
+              <span className="title-modal">PLAYERS & SPONSORS <img
+                            title="Charity address"
+                            src="images/charityIcon.png"
+                            alt=""
+                            className="winner-icon"
+                          /></span>
               <br></br>
               <br></br>
               <table className="winner-table">
@@ -1284,7 +1294,7 @@ async function processPlayers(graph) {
 
                       <td>
                         <span className="winner-address">
-                          {player.account.id.substring(0, 14)}
+                          {player.account.id.substring(0, 9)}
                         </span>
                         {player.account.id.toLowerCase() ===
                           address?.toLowerCase() && (
@@ -1297,6 +1307,14 @@ async function processPlayers(graph) {
                             />{" "}
                           </span>
                         )}
+                        {player.controlledToken.id === "0xd5f60154bef3564ebfbe9bb236595f0da548a742" &&<span>
+                         {" "}<img
+                            title="Charity address"
+                            src="images/charityIcon.png"
+                            alt=""
+                            className="winner-icon"
+                          /></span>
+                        }
                       </td>
                       <td style={{ textAlign: "right" }}>
                         &nbsp;&nbsp;&nbsp;&nbsp;
