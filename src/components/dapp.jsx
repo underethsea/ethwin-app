@@ -565,12 +565,12 @@ try{
   }
 
   function DepositButton() {
-    if (balances[0] !== undefined) {
+    // if (balances[0] !== undefined) {
       // console.log(balances);
       return (
         isConnected && (
           <span>
-            {balances[0].steth.gt(BNONEWEI) && (
+            {/* {balances[0].steth.gt(BNONEWEI) && ( */}
               <span>
                 <span
                   className="pointer"
@@ -585,13 +585,13 @@ try{
                   &nbsp;
                 </span>
               </span>
-            )}
+            {/* )} */}
           </span>
         )
       );
-    } else {
-      return null;
-    }
+    // } else {
+    //   return null;
+    // }
   }
 
   function WithdrawButton() {
