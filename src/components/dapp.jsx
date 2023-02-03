@@ -227,19 +227,21 @@ async function callGraphNoCache(network) {
     let winHistory = [];
     
     winnerMap.forEach((mappedDraw) => {
+      if(mappedDraw.awardedTimestamp !== null)  {
 
       winHistory.push({
         timestamp: mappedDraw.awardedTimestamp,
         drawId: draws,
         winnerMap: mappedDraw.awardedControlledTokens,
-      });
+      });}
       draws -= 1;
     });
     console.log(winHistory)
     winHistory.totalGive = 0
     winHistory.forEach(drawNumber => {
         let charity = drawNumber.winnerMap.filter(player=>player.winner === "0x7cf2ebb5ca55a8bd671a020f8bdbaf07f60f26c1")
-        winHistory.totalGive += parseInt(charity[0].amount) / 1e18
+        let charityamt = charity[0]?.amount 
+        winHistory.totalGive += parseInt(charityamt) / 1e18
     })
     console.log("DONATED",winHistory.totalGive)
 
