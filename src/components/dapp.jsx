@@ -134,6 +134,7 @@ function Dapp() {
 
   // const signer = useSigner();
 
+  const [checked, setChecked] = useState(false)
   const [cacheTime, setCacheTime] = useState(0);
   const [balances, setBalances] = useState([
     { steth: BNZERO, ethwin: BNZERO, spethwin: BNZERO },
@@ -162,6 +163,10 @@ function Dapp() {
 
   const { chain } = useNetwork();
 
+  const changeCheckbox = () => {
+    setChecked(!checked);
+  };
+
   async function openWallet() {
     setModalFocus("wallet");
     setIsModalOpen(true);
@@ -172,6 +177,7 @@ function Dapp() {
     setIsModalOpen(true);
     setInputAmount("");
   }
+
 
   // async function openAward() {
   //   setModalFocus("award");
@@ -403,12 +409,13 @@ try{
     },
   });
 
+
   // ------ DEPOSIT TRANSACTION CONFIG -------- //
   const { config: depositConfig } = usePrepareContractWrite({
     args: [
       address,
       amountFormatForSend(inputAmount),
-      ADDRESS[ChainObject(chain)].ETHWIN,
+      checked ? ADDRESS[ChainObject(chain)].SPETHWIN : ADDRESS[ChainObject(chain)].ETHWIN,
       "0x0000000000000000000000000000000000000000",
     ],
     addressOrName: ADDRESS[ChainObject(chain)].PRIZEPOOL,
@@ -1123,7 +1130,7 @@ try{
             top: "8%",
             borderRadius: 10,
             width: 400,
-            height: 300,
+            height: 314,
             background:
               "linear-gradient(141deg, rgb(21 35 56) 28%, rgb(145 93 213) 164%), rgba(41, 11, 90, 0.05)",
             // backgroundColor: "#898d92",
@@ -1244,7 +1251,7 @@ try{
                     </span>
                   ) : parseFloat(allowances.steth) / 1e6 >=
                       parseFloat(Number(inputAmount)) &&
-                    parseFloat(allowances.steth) !== 0 ? (
+                    parseFloat(allowances.steth) !== 0 ? (<span>
                     <button
                       onClick={() => depositTo()}
                       className="myButton purple-hover"
@@ -1253,8 +1260,19 @@ try{
                   {depositIdle && "DEPOSIT"}
                   {isDepositError && "DEPOSIT ERROR, TRY AGAIN"}
                   {depositWaitSuccess && "DEPOSIT SUCCESSFUL"} */}
-                      DEPOSIT
-                    </button>
+                     DEPOSIT  
+                    </button><br></br>
+                    <span className="sponsor-span">{!checked &&<label className="containeryo">
+                    <input
+          type="checkbox"
+          checked={checked}
+          onChange={changeCheckbox}
+        /></label>}{checked && <span><img src="./images/purpleheart.png" className="purple-heart" onClick={changeCheckbox}/></span>}
+        <span className="sponsor-text">  SPONSOR {checked && "NOT ELIGIBLE TO WIN"}</span></span>
+        </span>   
+       
+        
+              
                   ) : (
                     <button
                       onClick={() => approve()}

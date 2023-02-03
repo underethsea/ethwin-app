@@ -472,7 +472,17 @@ opacity:0}
 .purple-hover:hover {
   background-color: #e2c8fa;
 }
-
+.purple-heart{
+  height:14px;
+  padding-left:3px;
+padding-right:3px
+}
+.containeryo input:checked ~ .checkmark {
+  background-color: #812eca!important;
+}
+.sponsor-span {
+  padding-top:12px;
+}
 .claimStamp {
   transform: rotate(0deg);
   color: #800080;
@@ -702,7 +712,17 @@ a.dropdown-item:hover {
     display: none;
   }
 }
-
+.sponsor-text {
+  font-weight: 700px!important;
+  color: rgb(68, 18, 68);
+  font-size:11px;
+}
+.sponsor-span {
+  float:left;
+}
+.sponsor-heart {
+  float:right;
+}
 .small-header {
   font: size 18px;
   padding-top: 35px;
