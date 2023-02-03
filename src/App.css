@@ -506,6 +506,9 @@ padding-right:3px
 .tablemax {
   max-width: 360px;
 }
+.call-to-stake {
+  padding-top:15px;
+}
 .get-token {
   color: black;
   font-size: 13px;

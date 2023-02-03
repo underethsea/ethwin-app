@@ -533,7 +533,7 @@ try{
        conditionOne || conditionTwo
       ) {
         return (
-          <div>
+          <div className="call-to-stake">
             <span className="get-token">
               WANNA WIN? GET stETH{" "}
               <a href="https://app.uniswap.org">
@@ -1105,9 +1105,10 @@ try{
                                   )}
                               </table>
                               <div className="wallet-buttons padding-bottom padding-top">
-                                <GetStethNow />
+                               
                                 <DepositButton />
                                 <WithdrawButton />
+                                <GetStethNow />
                               </div>
                             </center>
                           </th>
