@@ -1261,7 +1261,8 @@ try{
                   {depositIdle && "DEPOSIT"}
                   {isDepositError && "DEPOSIT ERROR, TRY AGAIN"}
                   {depositWaitSuccess && "DEPOSIT SUCCESSFUL"} */}
-                     DEPOSIT  
+                                          {checked ? "DEPOSIT AS SPONSOR" : "DEPOSIT"}  
+
                     </button><br></br>
                     <span className="sponsor-span">{!checked &&<label className="containeryo">
                     <input
