@@ -72,11 +72,13 @@ function App() {
         <Dapp />
         <div className="powered-by-div">
           <span className="sponsor-text-top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sponsored & Powered By</span><br></br>
-          <span>
-            <img src="./images/witnet.png" className="witnet" />
+          <span><a href="https://witnet.io" target="_blank">
+            <img src="./images/witnet.png" className="witnet" /></a>
           </span>
           <span>
+            <a href="https://pooltogether.com" target="blank">
             <img src="./images/pooltogether.svg" className="pooltogether"/>
+            </a>
           </span>
         </div>
         <div className="boticon">
