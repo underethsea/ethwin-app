@@ -19,7 +19,7 @@ import { publicProvider } from 'wagmi/providers/public';
 /* adding goerli network */
 const goerliChain = {
   id: 5,
-  name: 'Goerli Testnet',
+  name: 'Goerli',
   network: 'Goerli',
   nativeCurrency: {
     decimals: 18,
@@ -70,6 +70,12 @@ function App() {
         }} />
         &nbsp;&nbsp;
         <Dapp />
+        <div className="powered-by-div">
+          <span>Sponsored & Powered By</span><br></br>
+          <span>
+            <img src="./images/pooltogether.svg" className="pooltogether"/>
+          </span>
+        </div>
         <div className="boticon">
           <span title="Github">
             <a href="https://github.com/underethsea/ethwin-app" target="_blank" rel="noreferrer">

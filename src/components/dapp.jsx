@@ -1673,11 +1673,11 @@ try{
             <span>
               <span onClick={() => getWinners()} className="bottom-menu">
                 WINNERS
-              </span>
+              </span><span className="hidden-mobile">
               &nbsp;&nbsp;
               <span onClick={() => getPlayers()} className="bottom-menu">
                 PLAYERS
-              </span>
+              </span></span>
               &nbsp;&nbsp;
               <span onClick={() => getStats()} className="bottom-menu">
                 STATS

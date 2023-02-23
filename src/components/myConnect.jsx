@@ -41,7 +41,7 @@ export const MyConnect = () => {
                     type="myButton"
                     className="myButton"
                   >
-                    Connect Wallet{" "}
+                    CONNECT{" "}
                   </button>
                 );
               }
