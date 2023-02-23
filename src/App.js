@@ -71,7 +71,10 @@ function App() {
         &nbsp;&nbsp;
         <Dapp />
         <div className="powered-by-div">
-          <span>Sponsored & Powered By</span><br></br>
+          <span className="sponsor-text-top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sponsored & Powered By</span><br></br>
+          <span>
+            <img src="./images/witnet.png" className="witnet" />
+          </span>
           <span>
             <img src="./images/pooltogether.svg" className="pooltogether"/>
           </span>

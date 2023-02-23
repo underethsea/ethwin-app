@@ -129,15 +129,23 @@ table td {
   display: inline;
 }
 .pooltogether{
-  width:70px;
+  height:40px;
 }
 
+.witnet {
+  height:65px;
+  padding-right:10px;
+}
+.sponsor-text-top{
+  padding-bottom:4px;
+}
 .powered-by-div {
   position:absolute;
   bottom: 6px;
   left: 10px;
   color:white;
   font-size:10px;
+  
 }
 .buy {
   color: green;
