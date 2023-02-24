@@ -1255,7 +1255,7 @@ try{
                     parseFloat(allowances.steth) !== 0 ? (<span>
                     <button
                       onClick={() => depositTo()}
-                      className="myButton purple-hover"
+                      className="transaction-button purple-hover"
                     >
                       {/* {depositLoading && "DEPOSITING..."}
                   {depositIdle && "DEPOSIT"}
@@ -1278,7 +1278,7 @@ try{
                   ) : (
                     <button
                       onClick={() => approve()}
-                      className="myButton purple-hover"
+                      className="transaction-button purple-hover"
                     >
                       {/* {approveLoading && "APPROVING..."}
                   {approveIdle && "APPROVE"}
@@ -1648,7 +1648,7 @@ try{
                   ) : (
                     <button
                       onClick={() => withdrawFrom()}
-                      className="myButton purple-hover"
+                      className="transaction-button purple-hover"
                     >
                       {withdrawButton}
                     </button>

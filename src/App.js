@@ -70,6 +70,8 @@ function App() {
         }} />
         &nbsp;&nbsp;
         <Dapp />
+        {/* <img src="./images/futurecity.jpeg" className="backdrop"></img> */}
+
         <div className="powered-by-div">
           <span className="sponsor-text-top">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sponsored & Powered By</span><br></br>
           <span><a href="https://witnet.io" target="_blank">
