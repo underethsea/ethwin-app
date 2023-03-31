@@ -991,12 +991,13 @@ try{
                           {/* <span className="give-text">{NumberChop(giveAmount)}
                           </span> 
                           &nbsp;<span className="text-two">stETH donated</span> */}
-</center>
+                      </center>
                                 </td>
                               </tr>
                             </table>}
                             <table className="inner-middle-table">
-
+                             <tr><td>
+ <center>
                            <span className="text-two">Goal #1 build a well </span>
                            <span className="give-text">{(Math.round((giveAmount - .7651)/1*100))}%</span>&nbsp;
                            <span className="text-two">complete</span>
