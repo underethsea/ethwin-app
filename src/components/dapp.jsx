@@ -968,7 +968,7 @@ try{
 
                                     <br></br>
                                     <span className="text-two">
-                                      50% to a WaterAid.ORG<br></br>50% to two
+                                      50% to WaterAid.ORG<br></br>50% to two
                                       {/* {
                             graphInfo?.data?.multipleWinnersPrizeStrategies[0]
                               .numberOfWinners
