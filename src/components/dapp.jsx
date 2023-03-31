@@ -944,13 +944,13 @@ try{
                 </table>
                 <br></br>
                 {!isModalOpen && (
-                  <>
+                  <>{!isConnected && <>
                     <table className="middle-table">
                       <tr>
                         <td style={{ textAlign: "left" }}>
                           {" "}
                           <center>
-                            {!isConnected && <>
+                            
                             <table className="inner-middle-table">
                               <tr>
                                 <td>
@@ -986,8 +986,25 @@ try{
                                     </center>
                                 </td>
                               </tr>
-                            </table></>}
-                            <table className="inner-middle-table">
+                            </table>
+                            
+                            
+  
+                          </center>
+                          {/* Alternate Lingo
+                      Staked ETH tokens are pooled
+                      With ETH yield everyone wins
+                      50% to a protocol specified charity
+                      50% to two lucky winners per week
+                      Withdraw in full anytime after 7 days */}
+                          {/* <img
+                          src="images/moreinfo.png"
+                          className="more-info"
+                        ></img>&nbsp;<span className="info-text">MORE INFO</span> */}
+                        </td>
+                      </tr>
+                    </table><br></br></>}
+<table className="bottom-table">
                              <tr><td>
  <center>{giveAmount > 0 && <>
                                     <img
@@ -1013,22 +1030,6 @@ try{
                                 </td>
                               </tr>
                             </table>
-                            
-  
-                          </center>
-                          {/* Alternate Lingo
-                      Staked ETH tokens are pooled
-                      With ETH yield everyone wins
-                      50% to a protocol specified charity
-                      50% to two lucky winners per week
-                      Withdraw in full anytime after 7 days */}
-                          {/* <img
-                          src="images/moreinfo.png"
-                          className="more-info"
-                        ></img>&nbsp;<span className="info-text">MORE INFO</span> */}
-                        </td>
-                      </tr>
-                    </table>
 
                     <br></br>
 
