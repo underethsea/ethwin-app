@@ -12,7 +12,18 @@
 .trophy-token {
   height: 19px;
 }
+.progresscontainer {
+  margin-top:10px;
+}
+.progress {
+  background-color:#2d2363;
+  /* margin-left:10px;
+  margin-right:10px; */
+}
 
+.bg-causeprogress{
+  background-color: #a86bf1!important;
+}
 .no-left {
   padding-left: 0em;
 }

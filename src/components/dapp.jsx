@@ -4,7 +4,7 @@ import Modal from "react-modal";
 import "../modal.css";
 import { Timer } from "./timer";
 // import CountUp from "react-countup";
-
+import ProgressBar from 'react-bootstrap/ProgressBar';
 import { GetSubgraphData } from "../functions/graphData";
 import { ethers } from "ethers";
 import {
@@ -205,13 +205,13 @@ async function callGraphNoCache(network) {
   try{
   let graphReturn = await GetSubgraphData(network);
   let processedPlayers = await processPlayers(graphReturn)
-
   let processedWinners = processWinners(graphReturn)
   let poolGraphInfo = {
     playerMap: processedPlayers,
     prizeMap: processedWinners,
     prizeGross: graphReturn.data.prizePools[0].cumulativePrizeGross
   }
+  console.log("give amount ",processedWinners.totalGive)
   setGiveAmount(processedWinners.totalGive)
   setGraphInfo(poolGraphInfo);
   setCacheTime(Date.now());
@@ -245,7 +245,7 @@ async function callGraphNoCache(network) {
     console.log(winHistory)
     winHistory.totalGive = 0
     winHistory.forEach(drawNumber => {
-        let charity = drawNumber.winnerMap.filter(player=>player.winner === "0x7cf2ebb5ca55a8bd671a020f8bdbaf07f60f26c1")
+        let charity = drawNumber.winnerMap.filter(player=>player.winner === "0x7cf2ebb5ca55a8bd671a020f8bdbaf07f60f26c1" || player.winner === "0x441380e9631af49f9436b6b272a83b63ca355796")
         let charityamt = charity[0]?.amount 
         winHistory.totalGive += parseInt(charityamt) / 1e18
     })
@@ -968,7 +968,7 @@ try{
 
                                     <br></br>
                                     <span className="text-two">
-                                      50% to a good cause<br></br>50% to two
+                                      50% to a WaterAid.ORG<br></br>50% to two
                                       {/* {
                             graphInfo?.data?.multipleWinnersPrizeStrategies[0]
                               .numberOfWinners
@@ -981,16 +981,32 @@ try{
                                     <span className="text-four">
                                       Withdraw in full anytime after 7 days
                                     </span><br></br>
-                                    {giveAmount > 0 && <><img
+                                    {giveAmount > 0 && <>
+                                    <img
                             title="Charity address"
                             src="images/charityIcon.png"
                             alt=""
                             className="winner-icon"
-                          />&nbsp;<span className="give-text">{NumberChop(giveAmount)}</span> <span className="text-two">stETH donated</span></>}
+                          />&nbsp;
+                          {/* <span className="give-text">{NumberChop(giveAmount)}
+                          </span> 
+                          &nbsp;<span className="text-two">stETH donated</span> */}
+                           <span className="text-two">Goal #1 build a well </span>
+                           <span className="give-text">{(Math.round((giveAmount - .7651)/1*100))}%</span>&nbsp;
+                           <span className="text-two">complete</span>
+
+                          <br></br>
+                         <div className="progresscontainer">
+                         <div className="progress">
+                          <ProgressBar variant="causeprogress" now={(Math.round((giveAmount - .7651)/1*100))}  /> 
+                          {/* {(Math.round((giveAmount - .7651)/1*100))}% to goal */}
+                        </div></div></>}
                                   </center>
                                 </td>
                               </tr>
                             </table>
+                            
+  
                           </center>
                           {/* Alternate Lingo
                       Staked ETH tokens are pooled
@@ -1372,7 +1388,7 @@ try{
                   return (
                     <tr>
                       <td>
-                        {winner.winner.startsWith("0x7cf2eb") ? (
+                        {winner.winner.startsWith("0x7cf2eb") || winner.winner.startsWith("0x44138") ? (
                           <img
                             title="Charity address"
                             src="images/charityIcon.png"
