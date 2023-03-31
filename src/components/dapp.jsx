@@ -945,11 +945,12 @@ try{
                 <br></br>
                 {!isModalOpen && (
                   <>
-                    <table className=" middle-table">
+                    <table className="middle-table">
                       <tr>
                         <td style={{ textAlign: "left" }}>
                           {" "}
-                          <center>{!isConnected &&
+                          <center>
+                            {!isConnected && <>
                             <table className="inner-middle-table">
                               <tr>
                                 <td>
@@ -981,7 +982,14 @@ try{
                                     <span className="text-four">
                                       Withdraw in full anytime after 7 days
                                     </span><br></br>
-                                    {giveAmount > 0 && <>
+                                    
+                                    </center>
+                                </td>
+                              </tr>
+                            </table></>}
+                            <table className="inner-middle-table">
+                             <tr><td>
+ <center>{giveAmount > 0 && <>
                                     <img
                             title="Charity address"
                             src="images/charityIcon.png"
@@ -991,13 +999,6 @@ try{
                           {/* <span className="give-text">{NumberChop(giveAmount)}
                           </span> 
                           &nbsp;<span className="text-two">stETH donated</span> */}
-                      </center>
-                                </td>
-                              </tr>
-                            </table>}
-                            <table className="inner-middle-table">
-                             <tr><td>
- <center>
                            <span className="text-two">Goal #1 build a well </span>
                            <span className="give-text">{(Math.round((giveAmount - .7651)/1*100))}%</span>&nbsp;
                            <span className="text-two">complete</span>
