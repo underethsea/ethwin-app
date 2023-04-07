@@ -100,8 +100,8 @@ function Dapp() {
       stethDayApy = apy.day;
       stethMonthApy = apy.month;
       isStethApyFetch = true;
-    } catch {
-      console.log("lido apy fetch error");
+    } catch(e) {
+      console.log("lido apy fetch error",e);
     }
 
     let poolStats = {
@@ -174,6 +174,13 @@ function Dapp() {
   }
   async function openWalletWithdraw() {
     setModalFocus("withdrawWallet");
+    setIsModalOpen(true);
+    setInputAmount("");
+  }
+
+
+  async function openGoodStats() {
+    setModalFocus("goodStats");
     setIsModalOpen(true);
     setInputAmount("");
   }
@@ -1007,19 +1014,20 @@ try{
 <table className="bottom-table">
                              <tr><td>
  <center>{giveAmount > 0 && <>
-                                    <img
-                            title="Charity address"
-                            src="images/charityIcon.png"
-                            alt=""
-                            className="winner-icon"
-                          />&nbsp;
+ 
                           {/* <span className="give-text">{NumberChop(giveAmount)}
                           </span> 
                           &nbsp;<span className="text-two">stETH donated</span> */}
                            <span className="text-two">Goal #1 build a well </span>
                            <span className="give-text">{(Math.round((giveAmount - .7651)/1*100))}%</span>&nbsp;
                            <span className="text-two">complete</span>
-
+                           <span onClick={() => openGoodStats()}>&nbsp;
+              <img
+                            title="Charity address"
+                            src="images/moreinfo.png"
+                            alt=""
+                            className="winner-icon"
+                          /></span>
                           <br></br>
                          <div className="progresscontainer">
                          <div className="progress">
@@ -1149,6 +1157,7 @@ try{
       </div>
       <Modal
         isOpen={isModalOpen}
+        ariaHideApp={false}
         style={{
           overlay: {
             position: "fixed",
@@ -1168,6 +1177,37 @@ try{
         <center>
           <div className="closeModal close" onClick={() => closeModal()}></div>
 
+          {modalFocus === "goodStats" && (
+            <div>
+              <div
+                className="closeModal close"
+                onClick={() => closeModal()}
+              ></div>
+			   <span className="title-modal">BUILDING GOOD</span>
+              <br></br>
+              <br></br>
+
+              {/* <span className="title-modal">STATS</span> */}
+			  <table className="winner-table">
+                <tr>
+                  
+                  <td style={{ textAlign: "center" }}>
+                    <span className="winner-amount">
+				
+          {/* stETH yield for charity per day {(poolInfo?.prizepool * (poolInfo.stethMonthApy / 100) / 365 / 2).toFixed(2)}  */}
+           
+
+          {/* Remaining steth needed to goal {Math.abs((giveAmount - .7651)-1).toFixed(2)}<br></br> */}
+
+          We are currently generating {(poolInfo?.prizepool * (poolInfo.stethMonthApy / 100) / 365 / 2).toFixed(4)} stETH for WaterAid per day.  In {((Math.abs((giveAmount - .7651)-1)) / ((poolInfo?.prizepool * (poolInfo.stethMonthApy / 100) / 365 / 2))).toFixed(0)} days we should reach our 1st goal of donating enough stETH to build one well.
+         
+                                           
+					
+                    </span>
+                  </td>
+                </tr>
+				</table>
+				</div>)}
           {modalFocus === "wallet" && (
             <div>
               <div
