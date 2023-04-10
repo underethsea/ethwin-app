@@ -1199,7 +1199,7 @@ try{
 
           {/* Remaining steth needed to goal {Math.abs((giveAmount - .7651)-1).toFixed(2)}<br></br> */}
 
-          We are currently generating {(poolInfo?.prizepool * (poolInfo.stethMonthApy / 100) / 365 / 2).toFixed(4)} stETH for WaterAid per day.  In {((Math.abs((giveAmount - .7651)-1)) / ((poolInfo?.prizepool * (poolInfo.stethMonthApy / 100) / 365 / 2))).toFixed(0)} days we should reach our 1st goal of donating enough stETH to build one well.
+          We are currently generating {(poolInfo?.prizepool * (poolInfo.stethMonthApy / 100) / 365 / 2).toFixed(4)} stETH for WaterAid per day.  <br/><br/>In ~{(((Math.abs((giveAmount - .7651)-1)) / ((poolInfo?.prizepool * (poolInfo.stethMonthApy / 100) / 365 / 2))) / 7).toFixed(0)} weeks we will reach our 1st goal of donating enough stETH to build one well.
          
                                            
 					
