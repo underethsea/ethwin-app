@@ -1381,7 +1381,7 @@ try{
 
                       <td>
                         <span className="winner-address">
-                          {player.account.id.substring(0, 9)}
+                          {player.account.id.substring(0, 11)}
                         </span>
                         {player.account.id.toLowerCase() ===
                           address?.toLowerCase() && (
