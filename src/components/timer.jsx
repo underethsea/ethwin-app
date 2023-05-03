@@ -7,7 +7,7 @@ const Completionist = () => (
     }}
   >
     &nbsp;
-    <span className="actionButton display-not-block">PRIZES ARE AWARDING</span>&nbsp;
+    <span className="actionButton display-not-block">PRIZES ARE GROWING</span>&nbsp;
   </span>
 );
 
