@@ -145,6 +145,18 @@ table td {
   right: 15px;
   display: inline;
 }
+.toWin-div {
+  display: inline
+}
+.toWin-button {
+  border-radius:10px;
+  border-color:#1fb0cd;
+  color:#bf1fcd;
+
+}
+.tenpxmargintop {
+  margin-top:9px;
+}
 .pooltogether{
   height:40px;
 }

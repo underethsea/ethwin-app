@@ -7,7 +7,7 @@ const Completionist = () => (
     }}
   >
     &nbsp;
-    <span className="actionButton display-not-block">PRIZES ARE GROWING</span>&nbsp;
+    {/* <span className=" display-not-block">PRIZES ARE GROWING</span>&nbsp; */}
   </span>
 );
 
@@ -23,7 +23,7 @@ const renderer = ({ days, hours, minutes, seconds, completed }) => {
     // Render a completed state
     return (
       <span>
-        <br></br>
+        {/* <br></br> */}
         <Completionist />
       </span>
     );

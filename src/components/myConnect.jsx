@@ -1,6 +1,6 @@
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 
-export const MyConnect = () => {
+export const MyConnect = (props) => {
   return (
     <ConnectButton.Custom>
       {({
@@ -23,7 +23,7 @@ export const MyConnect = () => {
 
         return (
           <div
-            className="wallet-div"
+            className={props.toWin ? "win-div" : "wallet-div"}
             {...(!ready && {
               "aria-hidden": true,
               style: {
@@ -39,9 +39,9 @@ export const MyConnect = () => {
                   <button
                     onClick={openConnectModal}
                     type="myButton"
-                    className="myButton"
+                    className={props.toWin ? "actionButton tenpxmargintop" : "myButton"}
                   >
-                    CONNECT{" "}
+                 {props.toWin ? "CONNECT TO WIN":"CONNECT"}
                   </button>
                 );
               }

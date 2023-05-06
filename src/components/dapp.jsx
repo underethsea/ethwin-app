@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
+import { MyConnect } from "./myConnect.jsx"
 
 import Modal from "react-modal";
 import "../modal.css";
@@ -984,11 +985,14 @@ try{
                            */}
                                       &nbsp;random poolers
                                     </span>
-
-                                    <br></br>
-                                    <span className="text-four">
-                                      Withdraw in full anytime after 7 days
-                                    </span><br></br>
+                                    <MyConnect label="Sign in" toWin={true} showBalance={{
+          smallScreen: false,
+          largeScreen: true,
+        }} accountStatus={{
+          smallScreen: 'avatar',
+          largeScreen: 'full',
+        }} />
+                                   
                                     
                                     </center>
                                 </td>
@@ -1340,7 +1344,7 @@ try{
        
         
               
-                  ) : (
+                  ) : (<span>
                     <button
                       onClick={() => approve()}
                       className="transaction-button purple-hover"
@@ -1350,7 +1354,12 @@ try{
                   {isApproveError && "APPROVE ERROR, TRY AGAIN"}
                   {approveSuccess && "APPROVE SUCCESSFUL"} */}
                       APPROVE
-                    </button>
+                    </button><br></br>
+                    <center>
+                    <span className="sponsor-span">
+                    <span className="sponsor-text">
+                      FAIRNESS FEE: 1% DECAYING TO ZERO IN 7 DAYS <a href="https://v3.docs.pooltogether.com/protocol/prize-pool/fairness" target="_blank"><img src="/images/moreInfo.png" className="winner-icon" /></a></span>
+                  </span></center></span>
                   )}
                 </>
               )}
