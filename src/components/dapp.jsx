@@ -849,7 +849,7 @@ try{
                           {/* <img src="images/trophyeth.png" className="trophy"></img>&nbsp; */}
                           <span className="top-title">
                            
-                            <div className="top-title-text">WEEKLY WINNING</div>
+                            <div className="top-title-text">CURRENT PRIZE</div>
                             <center>
                               <div className="top-info">
                                 <div>
@@ -972,7 +972,7 @@ try{
 
                                     <br></br>
                                     <span className="text-two">
-                                      ETH yield creates weekly winners
+                                      ETH yield creates winners
                                     </span>
 
                                     <br></br>
