@@ -1573,6 +1573,7 @@ try{
                                       poolInfo.ethwinTotalSupply -
                                       poolInfo.spethwinTotalSupply)) / poolInfo.ethwinTotalSupply)).toFixed(2)}%</td></tr> */}
                 {graphInfo?.prizeGross > 0 && (
+			<>
                   <tr>
                     <td>
                       <span className="winner-amount">
@@ -1606,7 +1607,7 @@ try{
                         {NumberChop(graphInfo.prizeGross / 2 / 1e18)}
                       </span>
                     </td>
-                  </tr>
+                  </tr></>
                 )}
                 {poolInfo?.isStethApyFetch && (
                   <tr>
