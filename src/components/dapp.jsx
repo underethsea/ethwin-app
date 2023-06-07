@@ -1590,6 +1590,23 @@ try{
                       </span>
                     </td>
                   </tr>
+			 <tr>
+                    <td>
+                      <span className="winner-amount">
+                        Charitable Prize&nbsp;&nbsp;&nbsp;
+                      </span>
+                    </td>
+                    <td style={{ textAlign: "right" }}>
+                      <img
+                        src="images/steth.png"
+                        className="token"
+                        alt="steth"
+                      ></img>
+                      <span className="winner-amount">
+                        {NumberChop(graphInfo.prizeGross / 2 / 1e18)}
+                      </span>
+                    </td>
+                  </tr>
                 )}
                 {poolInfo?.isStethApyFetch && (
                   <tr>
@@ -1602,6 +1619,7 @@ try{
                       </span>
                     </td>
                   </tr>
+
                 )}
               </table>
 
