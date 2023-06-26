@@ -41,6 +41,8 @@ export const NumberChop = (biginput) => {
     return number.toFixed(4);
   } else if (number > 0.00001) {
     return number.toFixed(6);
+    } else if (number > 0.0000001) {
+    return number.toFixed(8);
   } else if (number > 0.00000001) {
     return number.toFixed(9);
   } else if (number > 0.0000000001) {
