@@ -40,7 +40,7 @@ export const NumberChop = (biginput) => {
   } else if (number > 0.01) {
     return number.toFixed(4);
   } else if (number > 0.00001) {
-    return number.toFixed(7);
+    return number.toFixed(6);
   } else if (number > 0.00000001) {
     return number.toFixed(9);
   } else if (number > 0.0000000001) {
@@ -58,17 +58,17 @@ export const DecimalsForCount = (number) => {
   } else if (number > 1000) {
     return 4;
   } else if (number > 1) {
-    return 6;
+    return 4;
   } else if (number > 0.01) {
-    return 8;
+    return 6;
   } else if (number > 0.00001) {
-    return 10;
+    return 8;
   } else if (number > 0.00000001) {
-    return 13;
+    return 11;
   } else if (number > 0.0000000001) {
-    return 15;
+    return 12;
   } else {
-    return 16;
+    return 15;
   }
 }
 
