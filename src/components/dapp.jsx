@@ -1022,7 +1022,7 @@ try{
                           {/* <span className="give-text">{NumberChop(giveAmount)}
                           </span> 
                           &nbsp;<span className="text-two">stETH donated</span> */}
-                           <span className="text-two">Goal #1 build a well </span>
+                           <span className="text-two">Goal #2 Feed The Children </span>
                            <span className="give-text">{(Math.round((giveAmount - .7651)/1*100))}%</span>&nbsp;
                            <span className="text-two">complete</span>
                            <span onClick={() => openGoodStats()}>&nbsp;
@@ -1036,7 +1036,7 @@ try{
                          <div className="progresscontainer">
                          <div className="progress">
                           <ProgressBar variant="causeprogress" now={(Math.round((giveAmount - .7651)/1*100))}  /> 
-                          {/* {(Math.round((giveAmount - .7651)/1*100))}% to goal */}
+                          {/* {(Math.round((giveAmount - 1.82)/1*100))}% to goal */}
                         </div></div></>}
                                   </center>
                                 </td>
@@ -1201,9 +1201,9 @@ try{
           {/* stETH yield for charity per day {(poolInfo?.prizepool * (poolInfo.stethMonthApy / 100) / 365 / 2).toFixed(2)}  */}
            
 
-          {/* Remaining steth needed to goal {Math.abs((giveAmount - .7651)-1).toFixed(2)}<br></br> */}
+          {/* Remaining steth needed to goal {Math.abs((giveAmount - 1.82)-1).toFixed(2)}<br></br> */}
 
-          We are currently generating {(poolInfo?.prizepool * (poolInfo.stethMonthApy / 100) / 365 / 2).toFixed(4)} stETH for WaterAid per day.  <br/><br/>In ~{(((Math.abs((giveAmount - .7651)-1)) / ((poolInfo?.prizepool * (poolInfo.stethMonthApy / 100) / 365 / 2))) / 7).toFixed(0)} weeks we will reach our 1st goal of donating enough stETH to build one well.
+          Currently generating {(poolInfo?.prizepool * (poolInfo.stethMonthApy / 100) / 365 / 2).toFixed(4)} stETH for Feed The Children per day.  <br/><br/>In ~{(((Math.abs((giveAmount - 1.82)-1)) / ((poolInfo?.prizepool * (poolInfo.stethMonthApy / 100) / 365 / 2))) / 7).toFixed(0)} weeks we will reach goal #2. We were succesful in our first goal of building a well.
          
                                            
 					
