@@ -977,7 +977,7 @@ try{
 
                                     <br></br>
                                     <span className="text-two">
-                                      50% to WaterAid.ORG<br></br>50% to two
+                                      50% to Feed The Children<br></br>50% to two
                                       {/* {
                             graphInfo?.data?.multipleWinnersPrizeStrategies[0]
                               .numberOfWinners
@@ -1022,8 +1022,8 @@ try{
                           {/* <span className="give-text">{NumberChop(giveAmount)}
                           </span> 
                           &nbsp;<span className="text-two">stETH donated</span> */}
-                           <span className="text-two">Goal #2 Feed The Children </span>
-                           <span className="give-text">{(Math.round((giveAmount - .7651)/1*100))}%</span>&nbsp;
+                           <span className="text-two">Goal #2 Feed The Children </span><br></br>
+                           <span className="give-text">{(Math.round((giveAmount - 1.82)/1*100))}%</span>&nbsp;
                            <span className="text-two">complete</span>
                            <span onClick={() => openGoodStats()}>&nbsp;
               <img
@@ -1035,7 +1035,7 @@ try{
                           <br></br>
                          <div className="progresscontainer">
                          <div className="progress">
-                          <ProgressBar variant="causeprogress" now={(Math.round((giveAmount - .7651)/1*100))}  /> 
+                          <ProgressBar variant="causeprogress" now={(Math.round((giveAmount - 1.82)/1*100))}  /> 
                           {/* {(Math.round((giveAmount - 1.82)/1*100))}% to goal */}
                         </div></div></>}
                                   </center>
